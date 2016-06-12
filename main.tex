@@ -60,7 +60,7 @@
 \coordinate [below=12cm] (midpoint) at (current page.north);
 \node at (current page.north west)
 {\begin{tikzpicture}[remember picture,overlay]
-\node[anchor=north west,inner sep=0pt] at (0,0) {\includegraphics[width=\paperwidth]{robotics-training}}; % Background image
+\node[anchor=north west,inner sep=0pt] at (0,0) {\includegraphics[width=\paperwidth]{robotics-wp}}; % Background image
 \draw[anchor=north] (midpoint) node [fill=ocre!30!white,fill opacity=0.6,text opacity=1,inner sep=1cm]{\Huge\centering\bfseries\sffamily\parbox[c][][t]{\paperwidth}{\centering 실전 ROS 시스템 구축\\[30pt] % Book title
 {\Large Python, Matlab을 이용한 ROS}\\[20pt] % Subtitle
 {\huge Donghoon Park}}}; % Author name
@@ -107,19 +107,123 @@
 %	PART
 %----------------------------------------------------------------------------------------
 
-\part{Part One}
+\part{Part1 : 사용환경 설치}
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 1
 %----------------------------------------------------------------------------------------
 
-\chapterimage{chapter_head_2.pdf} % Chapter heading image
+\chapterimage{ros-names.png} % Chapter heading image
 
-\chapter{한글Text Chapter}
+\chapter{ROS 개요}
 
-\section{Paragraphs of Text}\index{Paragraphs of Text}
+\section{ROS란 무엇인가}\index{Paragraphs of Text}
 
-여기에 내용을 입력합니다.
+
+ROS는 Robot Operating System 으로, 로봇과 관련된 여러 패키지를 제공하고,
+특히 프로시저간의 안전한 통신 규약을 제공하는 프로그램입니다.
+Operating System이라는 이름 때문에 오히려 ROS의 개념에 대해 헷갈려하는 분들이 계신데,
+ROS는 OS가 하는 일을 일부 도맡아서 하는 프로그램으로 생각하시면 됩니다.
+
+ROS는 2016년 6월 시점으로 ROS Kinetic 버전까지 나와있으며, ROS의 마스코트는 왜인지 모르겠지만 거북이이고,
+레퍼런스 로봇은 꼬부기(turtlebot)이고, 예제도 거북이로 시작합니다. ROS는 설치하는 과정 자체가 기존 Linux유저 기준으로 어려운 편은 아니지만,
+로봇을 만드는 사람들이 모두 Linux에 익숙한 것은 아니기 때문에 설치 난이도가 낮은 편은 아닙니다.
+어떻게 보면 매우 어려운 설치 과정을 거치는데, 이런 고생을 하면서까지 왜 ROS를 사용해야 하는지에 대해 이야기해보도록 하죠.
+
+\includegraphics[scale=0.3]{ros-kinetic}
+
+ROS의 필요성에 대해 이야기하려면 ROS가 어떤 것인지부터 이야기해야 할 것입니다.
+프로그래머의 입장에서 보면, ROS는 일종의 라이브러리입니다. Python, C++, Matlab, Javascript 등에서 돌아가는 라이브러리를 공식적/ 비공식적으로 제공하며,
+프로그램 언어에서 쉽게 불러와서 사용할 수 있습니다. ROS 라이브러리가 제공하는 API는 상당히 단순합니다.
+데이터를 저장하고 불러오는 두 가지 방식에 대한 함수(or Functional Block)를 제공할 뿐입니다.
+여기서 의문이 들 수 있습니다.리눅스에 조금 익숙하신 분이라면 알겠지만 리눅스에서는 변수 공유를 그다지 어려운 과정을 거치지 않고 할 수 있습니다.
+왜 굳이 ROS를 써야 하는것일까요? 그 해답은 ROS의 호환성에 있다고 할 수 있습니다. ROS는 다른 언어간에도 심지어 다른 하드웨어간에도 변수 공유를 위한 프로토콜을 제공합니다.
+그리고 무엇보다도 프로그램을 패키지화 시키고 나면, 우리가 프로그램의 내부를 아얘 모르고도 그 패키지에서 뽑아주는 변수만 사용할 수 있다는 점이 가장 큰 장점이죠.
+사실상의 하드웨어 플러그 앤 플레이를 진정하게 가능하게 하는 것이죠.
+ROS 패키지를 이용할 때는 소프트웨어 패키지는 설치 후 실행만 하면 됩니다. 하드웨어 연결이 필요한 패키지는 동일한 하드웨어 구성 후 꽂고, 패키지를 실행하면 됩니다.
+기존에 개발한 하드웨어에 대한 완벽한 재사용성을 확보할 수 있는 것이죠.
+임베디드 환경에서 구르던 로봇 프로그래머들에게 조금 더 감을 잡을 수 있게 예시를 들어보자면,
+다른 사람이 짠 아두이노 시스템을 컴퓨터에 꽂기만 하면 주요 변수를 ROS가 directory 형식으로 정리해서 보여준다는 말도 안되는 일이 가능해집니다.
+
+결론적으로, 하드웨어 및 소프트웨어의 모듈화 및 재사용성을 극한까지 추구할 수 있는 구조가 ROS라고 보시면 됩니다.
+
+
+%------------------------------------------------
+
+\section{ROS를 사용하기 위해서는?}\index{ROS를 사용하기 위해서는?}
+
+ROS를 사용하기 위해서는 먼저 시스템을 구성해야 합니다. ROS는 보통 Ubuntu라는 리눅스 배포판 위에
+올려서 쓰는 것이 일반적입니다. Ubuntu 위에서는 ROS를 비교적 쉽게 명령줄 도구를 이용해서 설치할 수 있습니다.
+또한, Ubuntu는 리눅스 배포판 중 매우 유명한 축에 속하며 ARM 보드를 상당히 잘 지원하기 때문에 소형 로봇 시스템에도 올릴 수 있다는 점에서 Ubutu 위에서 ROS 구성 후 실습을 하시는 것을 권장합니다.
+
+그리고, ROS에 접속하는 프로그램을 짜는 과정 또한 필요하기 때문에 개발용 프로그램 언어 환경 또한 설치해야 합니다.
+보통 ROS 접속 프로그램을 짤 떄는 Python, C++ 등의 언어를 사용합니다. 이 책에서는 Python을 주 개발 언어로 사용하는 과정에 대해 이야기하겠습니다.
+보다 나은 성능을 원한다면 C++을 이용하는 것을 권장합니다. ros 기본 메뉴얼은 C++로 작성되어있기 때문에, 기본 ros 매뉴얼을 따라서 한다면 C++ 프로그래밍은 어렵지 않게 할 수 있습니다.
+이 교재에서 Python을 주 언어로 사용하는 이유는 스크립트 인터프리터를 이용한 실시간 코드 확인이 가능하기 때문입니다. 다시 한번 강조하지만 프로그램이 무거운 경우 C++에서의 개발을 권장합니다.
+
+또한 이것은 필자의 개인적인 추천인데, Matlab을 활용할 수 있는 환경에 있고, 로봇의 Computing Power가 충분히 좋은 경우 Matlab의 Simulink를 사용하는 것을 추천합니다.
+Matlab Simulink는 Gui Block Programming Language로 시스템 구성에 있어서는 매우 탁월한 기능을 갖추고 있습니다.
+특히, DSP Filter 구성에서는 따라올 대안이 없다는 것에는 대부분의 엔지니어가 동의할 것입니다.
+
+따라서 본 교재를 전부 보기 위해서는 아래와 같은 환경을 구성하고 가는 것을 추천합니다.
+
+\begin{enumerate}
+\item Ubuntu 14.04 or Ubuntu 16.04
+\item ROS Jade or Kinetic
+\item Python 2.7 and Development Environment
+\item Matlab 2016a with Simulink Robotics Communication Block
+\end{enumerate}
+
+이제 해당 환경들을 설치하는 방법에 대해서 차근차근 설명해 보겠습니다.
+
+%------------------------------------------------
+
+%------------------------------------------------
+\section{Ubuntu 설치}
+\label{sec:Ubuntu 설치}
+
+이번 섹션에서는 Ubuntu를 설치하는 방법에 대해 이야기해 보겠습니다. Ubuntu는 앞서 말했듯이 리눅스 시스템으로,
+ROS를 올리기 좋은 환경을 제공해줍니다. 하드웨어를 연계해서 개발을 할 예정이니 Virtual Machine이 아닌 Native로 설치하는 것을 권장합니다.
+ARM 보드 위에 설치한 Ubuntu를 가지고 교재를 진행하는 것은 권장하지 않습니다. 왜냐하면 ARM에는 지원되지 않는 ROS 패키지가 많으며, 이 교재는 64비트 x86 CPU (일반적인 Intel, AMD CPU) 기준으로 쓰여졌기 때문입니다.
+
+먼저 Ubuntu ISO Image를 다운로드 받습니다. 우분투 공식 배포판을 활용하는 것을 추천합니다.
+
+http://www.ubuntu.com/ 에 접속하셔서 Desktop 버전을 다운로드 받으세요.
+
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.22]{01_ubuntu_mainpage}
+\caption{Ubuntu 공식 페이지}
+\end{figure}
+
+다운로드 받은 ISO 파일은 이제 usb에 넣어 부팅 usb를 만들고 설치해야 합니다.
+해당 과정은 잘 정리되어 있는 블로그 링크가 있기에 아래에 첨부합니다.
+
+\begin{link}[http://sergeswin.com/1178]
+: Ubuntu 부팅 usb 제작과정
+\end{link}
+
+해당 블로그의 글을 보고 부팅 usb를 만드셨다면, 이제 컴퓨터 파티션에 공간을 30GB정도 남긴 뒤(단순히 free space가 아니라 disk 관리로 들어가셔서 가용 공간을 확보하셔야 합니다.) usb로 부팅해서 해당 공간에 ubuntu를 설치하세요.
+공식 홈페이지에서 튜토리얼을 제공하니 참고하셔서 설치하면 어렵지 않게 설치가 가능합니다.
+
+\begin{link}[http://www.ubuntu.com/download/desktop/install-ubuntu-desktop]
+: Ubuntu 설치 과정
+\end{link}
+
+사실 Ubuntu는 리눅스 중에서도 매우 사용자 친화적인 배포판이기 때문에 설치순서 자체가 어렵다기보다는, 설치 과정 중에 생기는 문제가 해결하기 까다롭습니다.
+그러나 개인별 증상이 매우 다르고, 그 때마다 해결책도 다르기 때문에 모든 것을 매뉴얼로 만들기는 사실상 불가능합니다.
+Ubuntu 설치 중에 문제가 생긴다면 아래 사이트를 참고해서 해결하도록 노력해보세요.
+Linux 환경에서 작업읋 하기 위해서는 해당 배포판의 포럼을 계속해서 들락 날락 하는 노력이 필요하답니다.
+
+\begin{link}[http://askubuntu.com/]
+: AskUbuntu Forum
+\end{link}
+
+
+
+
+%------------------------------------------------
+
 
 %------------------------------------------------
 
