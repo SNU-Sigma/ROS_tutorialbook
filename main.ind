@@ -1,56 +1,52 @@
 \begin{theindex}
 
-  \item Citation, \hyperpage{9}
-  \item Corollaries, \hyperpage{12}
+  \item Corollaries, \hyperpage{16}
 
   \indexspace
 
-  \item Definitions, \hyperpage{11}
+  \item Definitions, \hyperpage{15}
 
   \indexspace
 
-  \item Examples, \hyperpage{12}
-    \subitem Equation and Text, \hyperpage{12}
-    \subitem Paragraph of Text, \hyperpage{13}
-  \item Exercises, \hyperpage{13}
+  \item Examples, \hyperpage{16}
+    \subitem Equation and Text, \hyperpage{16}
+    \subitem Paragraph of Text, \hyperpage{17}
+  \item Exercises, \hyperpage{17}
 
   \indexspace
 
-  \item Figure, \hyperpage{17}
+  \item Figure, \hyperpage{21}
 
   \indexspace
 
-  \item Lists, \hyperpage{10}
-    \subitem Bullet Points, \hyperpage{10}
-    \subitem Descriptions and Definitions, \hyperpage{10}
-    \subitem Numbered List, \hyperpage{10}
-
-  \indexspace
-
-  \item Notations, \hyperpage{12}
+  \item Notations, \hyperpage{16}
 
   \indexspace
 
   \item Paragraphs of Text, \hyperpage{7}
-  \item Problems, \hyperpage{13}
-  \item Propositions, \hyperpage{12}
-    \subitem Several Equations, \hyperpage{12}
-    \subitem Single Line, \hyperpage{12}
+  \item Problems, \hyperpage{17}
+  \item Propositions, \hyperpage{16}
+    \subitem Several Equations, \hyperpage{16}
+    \subitem Single Line, \hyperpage{16}
+  \item Pycharm, \hyperpage{12}
+  \item Python Development Environment, \hyperpage{12}
+  \item Python Package Manager Install, \hyperpage{13}
 
   \indexspace
 
-  \item Remarks, \hyperpage{12}
+  \item Remarks, \hyperpage{16}
+  \item ROS 설치, \hyperpage{10}
   \item ROS를 사용하기 위해서는?, \hyperpage{8}
 
   \indexspace
 
-  \item Table, \hyperpage{17}
-  \item Theorems, \hyperpage{11}
-    \subitem Several Equations, \hyperpage{11}
-    \subitem Single Line, \hyperpage{11}
+  \item Table, \hyperpage{21}
+  \item Theorems, \hyperpage{15}
+    \subitem Several Equations, \hyperpage{15}
+    \subitem Single Line, \hyperpage{15}
 
   \indexspace
 
-  \item Vocabulary, \hyperpage{13}
+  \item Vocabulary, \hyperpage{17}
 
 \end{theindex}

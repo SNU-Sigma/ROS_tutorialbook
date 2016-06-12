@@ -107,7 +107,7 @@
 %	PART
 %----------------------------------------------------------------------------------------
 
-\part{Part1 : 사용환경 설치}
+\part{Part1}
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 1
@@ -115,7 +115,7 @@
 
 \chapterimage{ros-names.png} % Chapter heading image
 
-\chapter{ROS 개요}
+\chapter{ROS 개요 및 환경설정}
 
 \section{ROS란 무엇인가}\index{Paragraphs of Text}
 
@@ -188,7 +188,11 @@ ARM 보드 위에 설치한 Ubuntu를 가지고 교재를 진행하는 것은 �
 
 먼저 Ubuntu ISO Image를 다운로드 받습니다. 우분투 공식 배포판을 활용하는 것을 추천합니다.
 
-http://www.ubuntu.com/ 에 접속하셔서 Desktop 버전을 다운로드 받으세요.
+\begin{link}[http://www.ubuntu.com/]
+  : Ubuntu 공식 홈페이지
+\end{link}
+
+ Ubuntu 공식 홈페이지에 접속하셔서 Desktop 버전을 다운로드 받으세요. LTS(Long Term Support) 버전을 사용하는 것을 추천합니다.
 
 
 \begin{figure}[h]
@@ -219,47 +223,152 @@ Linux 환경에서 작업읋 하기 위해서는 해당 배포판의 포럼을 �
 : AskUbuntu Forum
 \end{link}
 
+무사히 Ubuntu를 설치하셨다면 축하합니다! 다음 파트에서는 드디어 ROS를 설치해 보겠습니다.
 
+%------------------------------------------------
+
+\section{ROS 설치}\index{ROS 설치}
+
+ROS는 2016.06 현재 ROS Kinetic Version 까지 나와 있습니다. ROS 또한 Ubuntu와 마찬가지로 여러 가지 배포판이 나와있는데, 일반적으로 비슷한 시기에 나온 Ubuntu와 ROS 배포판이 호환성이 좋습니다.
+Ubuntu 14.04를 설치해 온 분은 ROS Jade, Ubuntu 16.04를 설치해 온 분은 ROS Kinetic을 권장합니다. 혹시나 개발기간이 촉박해서 기존 패키지를 조합하는 방식의 개발을 원하는 분은 구버전인 ROS Indigo를 사용하셔도 좋습니다.
+ROS는 최신버전으로 올수록 apt-get을 이용해 간단히 설치할 수 있는 패키지가 줄어들기 때문에, 최신버전과 패키지의 숫자 사이에서 잘 저울질 해서 알맞은 버전을 선택하시길 바랍니다.
+
+\begin{figure}[h]
+\includegraphics[scale=2.0]{02_ros_indigo}
+\includegraphics[scale=0.3]{03_ros_jade}
+\includegraphics[scale=0.2]{04_ros_kinetic}
+\caption{ROS Versions}
+\end{figure}
+
+ROS 설치를 위해서는 Ubuntu에서 커멘드 라인을 실행해야 합니다.
+일반적인 환경을 구축했다면 Ctrl + Alt + T 를 누르면 아래와 같이 커멘드라인이 실행됩니다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.7]{05_terminal}
+\caption{Terminal 실행 창}
+\end{figure}
+
+이제 이 창 위에 설치 명령어를 입력하여 ROS를 설치하게 됩니다. ROS설치는 대부분 비슷한 과정으로 진행되지만, 버전별로 약간씩 상이하기 때문에
+자신이 설치할 버전이 무엇인지 잘 알고 진행하시기 바랍니다. 혹시나 ARM Linux Board(Odroid/ Raspberry pi/ Beaglebone Black)가
+최종 Target System인 경우, 최신버전인 ROS Kinetic을 설치하지 않는 것을 권장합니다.
+
+ROS의 버전별 설치 방법은 아래와 같습니다.
+
+\begin{link}[http://wiki.ros.org/indigo/Installation/Ubuntu]
+  : ROS Indigo 설치과정
+\end{link}
+
+\begin{link}[http://wiki.ros.org/jade/Installation/Ubuntu]
+  : ROS Jade 설치과정
+\end{link}
+
+\begin{link}[http://wiki.ros.org/kinetic/Installation/Ubuntu]
+  : ROS Kinetic 설치과정
+\end{link}
+
+설치 과정에 따라 명령어를 입력하면 ROS가 설치됩니다. desktop-full package로 설치하는 것을 권장드리며,
+최대 약 1시간까지도 걸리는 작업이므로 느긋하게 기다려 주세요.
+1.1 - 1.8 까지 모든 명령어를 순서대로 입력하셔야 합니다.
+
+간단하게 설치하고 싶으시다 혹은 리눅스 초보라 아무것도 모르겠다 하시는 분은 아래 명령어를 입력해서 ROS Indigo를 간단하게 설치하는 방법도 있습니다만 권장하지 않습니다.
+해당 링크는 오픈소스 로보틱스 카페 표윤석 연구원님꼐서 만든 저장소와 스크립트입니다.
+
+\begin{link}[http://cafe.naver.com/openrt/13991]
+  : wget https://raw.githubusercontent.com/oroca/oroca-ros-pkg/master/ros\_install.sh\, \&\& chmod 755\, ./ros\_install.sh\, \&\& ./ros\_install.sh\, catkin\_ws indigo
+\end{link}
+
+ROS를 모두 설치했다면 제대로 설치되었는지 roscore 프로그램을 실행시켜 봅시다.
+터미널을 열고, roscore 명령어를 아래와 같이 입력하고 실행해 보세요. 정상적으로 작동한다면 ROS 설치에 성공한 것입니다. 아래 예시는 ROS Kinetic을 설치한 예시입니다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.5]{06_roscore_terminal}
+\caption{roscore 실행 창}
+\end{figure}
+
+
+%------------------------------------------------
+\section{Python Development Environment}\index{Python Development Environment}
+
+이제 프로그래밍 언어인 파이선을 사용하기 위한 개발환경을 갖추어 봅시다.
+프로그래밍 언어 개발환경은 크게 세 가지로 구성됩니다. Editor, Compilier, Debugger.
+여기에서는 IDE 한 가지를 추천하고, 혹시나 상황이 여의치 않을 경우 사용할 수 있는 오픈소스 개발환경 구축법을 소개하도록 하겠습니다.
+
+\subsection{Pycharm}\index{Pycharm}
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.5]{07_pycharm}
+\caption{pycharm}
+\end{figure}
+
+Pycharm은 Jetbrains에서 만든 Python 전용 IDE입니다. 파이선 패키지만 설치된 상태라면 자동으로 모든 설정을 알아서 수행하며, 설치만 하면 바로 사용할 수 있는 상태가 됩니다.
+아쉬운 점이라면 다른 환경에 비해 비교적 무겁다는 점과, 무료가 아니라는 점입니다. 그러나 학생인증을 하면 무료로 받을 수 있으므로 학생이라면 해당 IDE를 사용하는 것을 권장합니다.
+개인적인 감상으로는 여타 개발 프로그램에 비해 비싼 편이 아니므로 구매하는 것도 상당히 좋은 선택일 것입니다.(필자는 위 회사와 아무런 관련이 없습니다.)
+Pycharm은 아래 링크로 가면 다운로드 받을 수 있습니다.
+
+\begin{link}[https://www.jetbrains.com/pycharm/]
+  : Pycharm 공식 홈페이지
+\end{link}
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.5]{08_pycharm_download}
+\caption{pycharm 다운로드}
+\end{figure}
+
+Pycharm을 다운로드 받고, 설치하는 방법에 대해 이야기하겠습니다. tar.gz 확장자를 가진 파일은 tar 명령어 혹은 파일 압축풀기 프로그램을 이용해 압축을 해제할 수 있습니다.
+압축을 푸는 법은 검색해서 찾아보시고, 압축이 풀린 상태에서 아래 그림과 같이 커멘드라인에서 해당 경로로 이동 후 실행파일을 실행(./) 시켜주면 됩니다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.4]{09_pycharm_install}
+\caption{pycharm 설치}
+\end{figure}
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.4]{10_pycharm_installed}
+\caption{pycharm 실행화면}
+\end{figure}
+
+이제 new project를 누르고 프로그래밍을 시작하면 됩니다.
+
+\subsection{Python Package Manager Install}\index{Python Package Manager Install}
+
+IDE를 사용하지 않는 경우에는 IDE에 해당하는 환경을 각각 구성해줘야 합니다.
 
 
 %------------------------------------------------
 
-
-%------------------------------------------------
-
-\section{Citation}\index{Citation}
-
-This statement requires citation \cite{book_key}; this one is more specific \cite[122]{article_key}.
-
-%------------------------------------------------
-
-\section{Lists}\index{Lists}
-
-Lists are useful to present information in a concise and/or ordered way\footnote{Footnote example...}.
-
-\subsection{Numbered List}\index{Lists!Numbered List}
-
-\begin{enumerate}
-\item The first item
-\item The second item
-\item The third item
-\end{enumerate}
-
-\subsection{Bullet Points}\index{Lists!Bullet Points}
-
-\begin{itemize}
-\item The first item
-\item The second item
-\item The third item
-\end{itemize}
-
-\subsection{Descriptions and Definitions}\index{Lists!Descriptions and Definitions}
-
-\begin{description}
-\item[Name] Description
-\item[Word] Definition
-\item[Comment] Elaboration
-\end{description}
+% \section{Citation}\index{Citation}
+%
+% This statement requires citation \cite{book_key}; this one is more specific \cite[122]{article_key}.
+%
+% %------------------------------------------------
+%
+% \section{Lists}\index{Lists}
+%
+% Lists are useful to present information in a concise and/or ordered way\footnote{Footnote example...}.
+%
+% \subsection{Numbered List}\index{Lists!Numbered List}
+%
+% \begin{enumerate}
+% \item The first item
+% \item The second item
+% \item The third item
+% \end{enumerate}
+%
+% \subsection{Bullet Points}\index{Lists!Bullet Points}
+%
+% \begin{itemize}
+% \item The first item
+% \item The second item
+% \item The third item
+% \end{itemize}
+%
+% \subsection{Descriptions and Definitions}\index{Lists!Descriptions and Definitions}
+%
+% \begin{description}
+% \item[Name] Description
+% \item[Word] Definition
+% \item[Comment] Elaboration
+% \end{description}
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 2
