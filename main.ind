@@ -1,5 +1,9 @@
 \begin{theindex}
 
+  \item Atom Editor Install, \hyperpage{14}
+
+  \indexspace
+
   \item Corollaries, \hyperpage{16}
 
   \indexspace
@@ -30,7 +34,7 @@
     \subitem Single Line, \hyperpage{16}
   \item Pycharm, \hyperpage{12}
   \item Python Development Environment, \hyperpage{12}
-  \item Python Package Manager Install, \hyperpage{13}
+  \item Python Package Install, \hyperpage{13}
 
   \indexspace
 

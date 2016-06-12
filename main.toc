@@ -18,7 +18,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {1.5.1}Pycharm}{12}{subsection.1.5.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.5.2}Python Package Manager Install}{13}{subsection.1.5.2}
+\contentsline {subsection}{\numberline {1.5.2}Python Package Install}{13}{subsection.1.5.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.5.3}Atom Editor Install}{14}{subsection.1.5.3}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {2}In-text Elements}{15}{chapter.2}
 \defcounter {refsection}{0}\relax 

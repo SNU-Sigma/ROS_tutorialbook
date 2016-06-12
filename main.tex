@@ -327,12 +327,49 @@ Pycharm을 다운로드 받고, 설치하는 방법에 대해 이야기하겠습
 \caption{pycharm 실행화면}
 \end{figure}
 
-이제 new project를 누르고 프로그래밍을 시작하면 됩니다.
+이제 new project를 누르고 프로그래밍을 시작하면 됩니다. Pycharm을 설치했다면 이후 단계를 생략해도 좋습니다.
 
-\subsection{Python Package Manager Install}\index{Python Package Manager Install}
+\subsection{Python Package Install}\index{Python Package Install}
 
-IDE를 사용하지 않는 경우에는 IDE에 해당하는 환경을 각각 구성해줘야 합니다.
+IDE를 사용하지 않는 경우에는 IDE에 해당하는 환경을 각각 구성해줘야 합니다. 각각의 환경이 또 파이선을 사용하는 경우가 많아 파이선 패키지 관리자를 먼저 설치하고 시작하도록 하겠습니다.
+아래의 명령어 한 줄이면 Python Package 관리자인 pip이 설치됩니다.
 
+\# sudo apt-get install python-pip
+
+이제 pip에서 아래의 패키지들을 명령줄 도구로 설치해봅시다.
+
+\# sudo pip install jedi
+
+\# sudo pip install pylama
+
+jedi는 파이선 언어 자동완성 패키지이고, pylama는 파이선 언어 코드 형식 및 에러체크 패키지입니다.
+
+\subsection{Atom Editor Install}\index{Atom Editor Install}
+
+이제 에디터를 설치하고 위에서 설치한 파이선 패키지들을 연결해봅시다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.35]{11_atom}
+\caption{Atom Editor}
+\end{figure}
+
+Atom은 Github에서 만든 에디터로, 상당히 사용자 친화적인 인터페이스를 제공합니다.
+물론 속도가 조금 느리다는 평이 있지만, 속도를 중요시하는 분들은 Vim이나 Emacs를 알아서 잘 사용하실 것으로 믿기에 에디터는 Atom 에디터만 다루고 넘어가도록 하겠습니다.
+아래 링크로 들어가서 Atom editor 패키지를 받습니다.(.deb)
+
+\begin{link}[https://atom.io/]
+  : Atom Editor 공식 홈페이지
+\end{link}
+
+.deb 패키지는 실행시키면 소프트웨어 센터에 연결되며 설치가 될 것입니다. 이제 위 파이선 패키지들에 연결할 에디터 패키지를 설치해봅시다.
+atom을 실행한 후 Ctrl+, 를 누르면 세팅 메뉴가 열리고, 여기서 새로운 패키지들을 설치할 수 있습니다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.35]{12_atom_packages}
+\caption{Atom Editor}
+\end{figure}
+
+위에 있는 두 패키지를 설치하면 됩니다. 
 
 %------------------------------------------------
 
