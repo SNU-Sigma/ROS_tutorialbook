@@ -479,14 +479,42 @@ ROS 내용에 대한 보다 개념적인 자세한 설명은 아래 링크의 �
 센서 데이터는 Micom(Arduino, Mbed, STM32 등등)에서 일차적으로 ADC로 읽어오게 됩니다. 그리고 ADC로 읽은 데이터를 ROS에 Publish 하면 ROS 입장에서는 Data가 일정 주기로 계속 업데이트 되는 것으로 보이죠.
 모터를 제어할 때도 마찬가지입니다. ROS에서 모터 출력에 대한 변수를 하나 Publish하고, 실제로 모터를 제어하는 Micom이 해당 데이터를 Subscribe하면서 업데이트하면 ROS에서 모터제어를 할 수 있습니다.
 
-시뮬레이션 프로그램을 구동할 때도 마찬가지입니다. ROS는 시뮬레이션 모델에 대한 정보를 Topic으로 불러올 수 있습니다.
+\section{Topic Publisher}
+
+\subsection{Rqt를 이용한 Topic Publisher}
+
+시뮬레이션 프로그램을 매우 간단하게 구동해 보면서 Topic을 Publish 한다는 것이 어떤 의미인지 감을 잡아봅시다. ROS는 시뮬레이션 모델에 대한 정보를 Topic으로 불러올 수 있습니다.
 해당 Topic들은 시뮬레이션 모델의 물리 벡터를 가지고 있습니다.(Torque, Force 등)
-이것들을 Control 하는 방법으로 시뮬레이션을 구동시킬 수 있죠.
+이것들을 Control 하는 방법으로 시뮬레이션을 구동시킬 수 있죠. Topic이 어떤 형태로 나오는지 알아보기 위해서 Gazebo Robot Simulator를 구동해봅시다.
+아래의 명령어를 입력하면 Gazebo를 ros에 연결된 상태로 구동할 수 있습니다.
 
+\#rosrun gazebo\_ros gazebo
 
-\subsection{Topic Publisher}
+정상적으로 실행되면 아래와 같은 창을 보실 수 있습니다. 여기에서 컨트롤 할 대상인 Sphere를 하나 불러와 봅시다.
 
-\subsection{Topic Subscriber}
+\begin{figure}[h]
+\centering\includegraphics[scale=0.2]{18_gazebo_launch}
+\caption{Gazebo 기본 화면}
+\end{figure}
+
+gazebo가 정상적으로 구동된 뒤에는 다른 터미널에서 rqt를 구동해봅니다.
+rqt에서는 기본 topic publisher를 제공합니다. Plugins -> Topics -> Message Publisher를 열어보세요.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.35]{19_rqt_gazebo_topic}
+\caption{rqt topic message publisher}
+\end{figure}
+
+\#rqt
+
+여기에서 /gazebo/set\_model\_state 라는 topic을 불러와 봅시다. 해당 topic은 Gazebo에서 Subscribe하고 있는 topic으로 해당 내용이 바뀌면
+Gazebo는 프로그램에서 해당 모델의 상태를 바꾸어줍니다. 해당 topic을 publish하기 위해서 오른쪽의 \+ 버튼을 눌러 publisher를 추가합니다.
+그리고 publish할 message를 아래와 같이 설정합니다. 아래와 같이 설정했을 때 i는 rate가 하나 지날 때 마다 1씩 올라가는 변수이므로, 약 63초마다 원은 원점을 따라서 한 바퀴씩 움직이게 될 것입니다.
+
+rqt는 topic 제어 이외에도 여러 기능을 가지고 있기 때문에 간단히 훑어보시는 것도 좋을 것입니다.
+특히, Matlab을 사용하지 않는 경우 rqt의 plot 기능은 매우 유용하게 사용할 수 있습니다.
+
+\subsection{Python을 이용한 Topic }
 
 
 % This is an example of theorems.
@@ -510,164 +538,164 @@ ROS 내용에 대한 보다 개념적인 자세한 설명은 아래 링크의 �
 % \end{theorem}
 
 %------------------------------------------------
-
-\section{Definitions}\index{Definitions}
-
-This is an example of a definition. A definition could be mathematical or it could define a concept.
-
-\begin{definition}[Definition name]
-Given a vector space $E$, a norm on $E$ is an application, denoted $||\cdot||$, $E$ in $\mathbb{R}^+=[0,+\infty[$ such that:
-\begin{align}
-& ||\mathbf{x}||=0\ \Rightarrow\ \mathbf{x}=\mathbf{0}\\
-& ||\lambda \mathbf{x}||=|\lambda|\cdot ||\mathbf{x}||\\
-& ||\mathbf{x}+\mathbf{y}||\leq ||\mathbf{x}||+||\mathbf{y}||
-\end{align}
-\end{definition}
-
-%------------------------------------------------
-
-\section{Notations}\index{Notations}
-
-\begin{notation}
-Given an open subset $G$ of $\mathbb{R}^n$, the set of functions $\varphi$ are:
-\begin{enumerate}
-\item Bounded support $G$;
-\item Infinitely differentiable;
-\end{enumerate}
-a vector space is denoted by $\mathcal{D}(G)$.
-\end{notation}
-
-%------------------------------------------------
-
-\section{Remarks}\index{Remarks}
-
-This is an example of a remark.
-
-\begin{remark}
-The concepts presented here are now in conventional employment in mathematics. Vector spaces are taken over the field $\mathbb{K}=\mathbb{R}$, however, established properties are easily extended to $\mathbb{K}=\mathbb{C}$.
-\end{remark}
-
-%------------------------------------------------
-
-\section{Corollaries}\index{Corollaries}
-
-This is an example of a corollary.
-
-\begin{corollary}[Corollary name]
-The concepts presented here are now in conventional employment in mathematics. Vector spaces are taken over the field $\mathbb{K}=\mathbb{R}$, however, established properties are easily extended to $\mathbb{K}=\mathbb{C}$.
-\end{corollary}
-
-%------------------------------------------------
-
-\section{Propositions}\index{Propositions}
-
-This is an example of propositions.
-
-\subsection{Several equations}\index{Propositions!Several Equations}
-
-\begin{proposition}[Proposition name]
-It has the properties:
-\begin{align}
-& \big| ||\mathbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||\\
-&  ||\sum_{i=1}^n\mathbf{x}_i||\leq \sum_{i=1}^n||\mathbf{x}_i||\quad\text{where $n$ is a finite integer}
-\end{align}
-\end{proposition}
-
-\subsection{Single Line}\index{Propositions!Single Line}
-
-\begin{proposition}
-Let $f,g\in L^2(G)$; if $\forall \varphi\in\mathcal{D}(G)$, $(f,\varphi)_0=(g,\varphi)_0$ then $f = g$.
-\end{proposition}
-
-%------------------------------------------------
-
-\section{Examples}\index{Examples}
-
-This is an example of examples.
-
-\subsection{Equation and Text}\index{Examples!Equation and Text}
-
-\begin{example}
-Let $G=\{x\in\mathbb{R}^2:|x|<3\}$ and denoted by: $x^0=(1,1)$; consider the function:
-\begin{equation}
-f(x)=\left\{\begin{aligned} & \mathrm{e}^{|x|} & & \text{si $|x-x^0|\leq 1/2$}\\
-& 0 & & \text{si $|x-x^0|> 1/2$}\end{aligned}\right.
-\end{equation}
-The function $f$ has bounded support, we can take $A=\{x\in\mathbb{R}^2:|x-x^0|\leq 1/2+\epsilon\}$ for all $\epsilon\in\intoo{0}{5/2-\sqrt{2}}$.
-\end{example}
-
-\subsection{Paragraph of Text}\index{Examples!Paragraph of Text}
-
-\begin{example}[Example name]
-\lipsum[2]
-\end{example}
-
-%------------------------------------------------
-
-\section{Exercises}\index{Exercises}
-
-This is an example of an exercise.
-
-\begin{exercise}
-This is a good place to ask a question to test learning progress or further cement ideas into students' minds.
-\end{exercise}
-
-%------------------------------------------------
-
-\section{Problems}\index{Problems}
-
-\begin{problem}
-What is the average airspeed velocity of an unladen swallow?
-\end{problem}
-
-%------------------------------------------------
-
-\section{Vocabulary}\index{Vocabulary}
-
-Define a word to improve a students' vocabulary.
-
-\begin{vocabulary}[Word]
-Definition of word.
-\end{vocabulary}
-
-%----------------------------------------------------------------------------------------
-%	PART
-%----------------------------------------------------------------------------------------
-
-\part{Part Two}
-
-%----------------------------------------------------------------------------------------
-%	CHAPTER 3
-%----------------------------------------------------------------------------------------
-
-\chapterimage{chapter_head_1.pdf} % Chapter heading image
-
-\chapter{Presenting Information}
-
-\section{Table}\index{Table}
-
-\begin{table}[h]
-\centering
-\begin{tabular}{l l l}
-\toprule
-\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
-\midrule
-Treatment 1 & 0.0003262 & 0.562 \\
-Treatment 2 & 0.0015681 & 0.910 \\
-Treatment 3 & 0.0009271 & 0.296 \\
-\bottomrule
-\end{tabular}
-\caption{Table caption}
-\end{table}
-
-%------------------------------------------------
-
-\section{Figure}\index{Figure}
-
-\begin{figure}[h]
-\centering\includegraphics[scale=0.5]{placeholder}
-\caption{Figure caption}
-\end{figure}
+%
+% \section{Definitions}\index{Definitions}
+%
+% This is an example of a definition. A definition could be mathematical or it could define a concept.
+%
+% \begin{definition}[Definition name]
+% Given a vector space $E$, a norm on $E$ is an application, denoted $||\cdot||$, $E$ in $\mathbb{R}^+=[0,+\infty[$ such that:
+% \begin{align}
+% & ||\mathbf{x}||=0\ \Rightarrow\ \mathbf{x}=\mathbf{0}\\
+% & ||\lambda \mathbf{x}||=|\lambda|\cdot ||\mathbf{x}||\\
+% & ||\mathbf{x}+\mathbf{y}||\leq ||\mathbf{x}||+||\mathbf{y}||
+% \end{align}
+% \end{definition}
+%
+% %------------------------------------------------
+%
+% \section{Notations}\index{Notations}
+%
+% \begin{notation}
+% Given an open subset $G$ of $\mathbb{R}^n$, the set of functions $\varphi$ are:
+% \begin{enumerate}
+% \item Bounded support $G$;
+% \item Infinitely differentiable;
+% \end{enumerate}
+% a vector space is denoted by $\mathcal{D}(G)$.
+% \end{notation}
+%
+% %------------------------------------------------
+%
+% \section{Remarks}\index{Remarks}
+%
+% This is an example of a remark.
+%
+% \begin{remark}
+% The concepts presented here are now in conventional employment in mathematics. Vector spaces are taken over the field $\mathbb{K}=\mathbb{R}$, however, established properties are easily extended to $\mathbb{K}=\mathbb{C}$.
+% \end{remark}
+%
+% %------------------------------------------------
+%
+% \section{Corollaries}\index{Corollaries}
+%
+% This is an example of a corollary.
+%
+% \begin{corollary}[Corollary name]
+% The concepts presented here are now in conventional employment in mathematics. Vector spaces are taken over the field $\mathbb{K}=\mathbb{R}$, however, established properties are easily extended to $\mathbb{K}=\mathbb{C}$.
+% \end{corollary}
+%
+% %------------------------------------------------
+%
+% \section{Propositions}\index{Propositions}
+%
+% This is an example of propositions.
+%
+% \subsection{Several equations}\index{Propositions!Several Equations}
+%
+% \begin{proposition}[Proposition name]
+% It has the properties:
+% \begin{align}
+% & \big| ||\mathbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||\\
+% &  ||\sum_{i=1}^n\mathbf{x}_i||\leq \sum_{i=1}^n||\mathbf{x}_i||\quad\text{where $n$ is a finite integer}
+% \end{align}
+% \end{proposition}
+%
+% \subsection{Single Line}\index{Propositions!Single Line}
+%
+% \begin{proposition}
+% Let $f,g\in L^2(G)$; if $\forall \varphi\in\mathcal{D}(G)$, $(f,\varphi)_0=(g,\varphi)_0$ then $f = g$.
+% \end{proposition}
+%
+% %------------------------------------------------
+%
+% \section{Examples}\index{Examples}
+%
+% This is an example of examples.
+%
+% \subsection{Equation and Text}\index{Examples!Equation and Text}
+%
+% \begin{example}
+% Let $G=\{x\in\mathbb{R}^2:|x|<3\}$ and denoted by: $x^0=(1,1)$; consider the function:
+% \begin{equation}
+% f(x)=\left\{\begin{aligned} & \mathrm{e}^{|x|} & & \text{si $|x-x^0|\leq 1/2$}\\
+% & 0 & & \text{si $|x-x^0|> 1/2$}\end{aligned}\right.
+% \end{equation}
+% The function $f$ has bounded support, we can take $A=\{x\in\mathbb{R}^2:|x-x^0|\leq 1/2+\epsilon\}$ for all $\epsilon\in\intoo{0}{5/2-\sqrt{2}}$.
+% \end{example}
+%
+% \subsection{Paragraph of Text}\index{Examples!Paragraph of Text}
+%
+% \begin{example}[Example name]
+% \lipsum[2]
+% \end{example}
+%
+% %------------------------------------------------
+%
+% \section{Exercises}\index{Exercises}
+%
+% This is an example of an exercise.
+%
+% \begin{exercise}
+% This is a good place to ask a question to test learning progress or further cement ideas into students' minds.
+% \end{exercise}
+%
+% %------------------------------------------------
+%
+% \section{Problems}\index{Problems}
+%
+% \begin{problem}
+% What is the average airspeed velocity of an unladen swallow?
+% \end{problem}
+%
+% %------------------------------------------------
+%
+% \section{Vocabulary}\index{Vocabulary}
+%
+% Define a word to improve a students' vocabulary.
+%
+% \begin{vocabulary}[Word]
+% Definition of word.
+% \end{vocabulary}
+%
+% %----------------------------------------------------------------------------------------
+% %	PART
+% %----------------------------------------------------------------------------------------
+%
+% \part{Part Two}
+%
+% %----------------------------------------------------------------------------------------
+% %	CHAPTER 3
+% %----------------------------------------------------------------------------------------
+%
+% \chapterimage{chapter_head_1.pdf} % Chapter heading image
+%
+% \chapter{Presenting Information}
+%
+% \section{Table}\index{Table}
+%
+% \begin{table}[h]
+% \centering
+% \begin{tabular}{l l l}
+% \toprule
+% \textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
+% \midrule
+% Treatment 1 & 0.0003262 & 0.562 \\
+% Treatment 2 & 0.0015681 & 0.910 \\
+% Treatment 3 & 0.0009271 & 0.296 \\
+% \bottomrule
+% \end{tabular}
+% \caption{Table caption}
+% \end{table}
+%
+% %------------------------------------------------
+%
+% \section{Figure}\index{Figure}
+%
+% \begin{figure}[h]
+% \centering\includegraphics[scale=0.5]{placeholder}
+% \caption{Figure caption}
+% \end{figure}
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
