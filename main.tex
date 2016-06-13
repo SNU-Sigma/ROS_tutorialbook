@@ -172,9 +172,10 @@ Matlab Simulink는 Gui Block Programming Language로 시스템 구성에 있어�
 \item ROS Jade or Kinetic
 \item Python 2.7 and Development Environment
 \item Matlab 2016a with Simulink Robotics Communication Block
+\item Arduino or Mbed
 \end{enumerate}
 
-이제 해당 환경들을 설치하는 방법에 대해서 차근차근 설명해 보겠습니다.
+이제 Arduino를 제외한 (아두이노는 인간적으로 너무 쉬워요..) 해당 환경들을 설치하는 방법에 대해서 차근차근 설명해 보겠습니다.
 
 %------------------------------------------------
 
@@ -290,7 +291,7 @@ ROS를 모두 설치했다면 제대로 설치되었는지 roscore 프로그램�
 \section{Python Development Environment}\index{Python Development Environment}
 
 이제 프로그래밍 언어인 파이선을 사용하기 위한 개발환경을 갖추어 봅시다.
-프로그래밍 언어 개발환경은 크게 세 가지로 구성됩니다. Editor, Compilier, Debugger.
+프로그래밍 언어 개발환경은 크게 세 가지로 구성됩니다. Editor, Compiler, Debugger.
 여기에서는 IDE 한 가지를 추천하고, 혹시나 상황이 여의치 않을 경우 사용할 수 있는 오픈소스 개발환경 구축법을 소개하도록 하겠습니다.
 
 \subsection{Pycharm}\index{Pycharm}
@@ -349,7 +350,7 @@ jedi는 파이선 언어 자동완성 패키지이고, pylama는 파이선 언�
 이제 에디터를 설치하고 위에서 설치한 파이선 패키지들을 연결해봅시다.
 
 \begin{figure}[h]
-\centering\includegraphics[scale=0.35]{11_atom}
+\centering\includegraphics[scale=0.45]{11_atom}
 \caption{Atom Editor}
 \end{figure}
 
@@ -365,11 +366,56 @@ Atom은 Github에서 만든 에디터로, 상당히 사용자 친화적인 인�
 atom을 실행한 후 Ctrl+, 를 누르면 세팅 메뉴가 열리고, 여기서 새로운 패키지들을 설치할 수 있습니다.
 
 \begin{figure}[h]
-\centering\includegraphics[scale=0.35]{12_atom_packages}
-\caption{Atom Editor}
+\centering\includegraphics[scale=0.4]{12_atom_packages}
+\caption{Atom Install Packages}
 \end{figure}
 
-위에 있는 두 패키지를 설치하면 됩니다. 
+위에 있는 두 패키지를 설치하면 됩니다. 이제 ROS를 손쉽게 사용할 수 있도록 autocomplete-python package를 설정하겠습니다.
+그 전에 ROS용 파이선 패키지 설치 경로를 알아야 설정이 가능하므로 아래와 같이 Python 쉘을 실행시켜 ROS 모듈을 위치를 알아냅니다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.5]{13_ros_module_location}
+\caption{ROS 모듈 위치 찾는법}
+\end{figure}
+
+아래 창에서 보면 rospy 모듈은 /opt/ros/kinetic/lib/python2.7/dist-packages 에 있는 것을 알 수 있습니다.
+해당 경로를 복사해서 jedi 패키지 설정의 Extra Paths for Packages에 넣어줍니다. 그리고 에디터를 재시작한 후 python 파일을 하나 만듭니다.
+정상적으로 설치된 경우 아래와 같이 autocompletion과 linter가 잘 작동합니다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.35]{14_atom_setup_complete}
+\caption{Atom 정상 실행 상황}
+\end{figure}
+
+파이선 개발용 패키지들은 이것 이외에도 유용한 것이 많으니 개인의 취향에 따라 선택해서 더 많은 패키지를 이용해 생산성을 높여보시기 바랍니다.
+
+
+\section{Matlab Install}\index{Matlab Install}
+
+마지막으로 Matlab을 설치합니다. (학교 혹은 기관 라이선스가 있는 경우에)
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.7]{15_matlab}
+\caption{Matlab}
+\end{figure}
+
+Matlab 설치 과정은 Mathworks 사에 매우 자세하게 설명되어있기 때문에 생략하도록 하겠습니다.
+ROS 지원 블록을 설치하는 것을 잊지 마세요. 아래 링크를 이용해서 접속하시면 Matlab을 받을 수 있습니다.
+
+\begin{link}[http://kr.mathworks.com/downloads/web\_downloads/?s\_tid=srchtitle   ]
+  : Matlab 다운로드 페이지
+\end{link}
+
+설치가 완료되면 아래 한 줄 커멘드 라인으로 Matlab 우분투 지원 패키지를 설치하세요. Matlab을 시스템에 알맞게 Integration 시켜주고, 명령줄 상에서 Matlab을 실행할 수 있게 해주는 도구입니다.
+
+\#sudo apt-get install matlab-support
+
+아래와 같이 커맨드라인에서 Matlab을 실행해보는 것으로 Chapter1을 마치겠습니다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.4]{16_matlab_test}
+\caption{Matlab Command Line Test}
+\end{figure}
 
 %------------------------------------------------
 
@@ -411,29 +457,57 @@ atom을 실행한 후 Ctrl+, 를 누르면 세팅 메뉴가 열리고, 여기서
 %	CHAPTER 2
 %----------------------------------------------------------------------------------------
 
-\chapter{In-text Elements}
+\chapter{ROS Basics}
 
-\section{Theorems}\index{Theorems}
+\section{ROS Topic}\index{ROS Topic}
 
-This is an example of theorems.
+ROS에서 Topic은 비동기로 작동하는 시스템 변수로 볼 수 있습니다. 이 변수를 발행하는 곳(일반적으로 센서)을 Publisher라고 부르고,
+이 변수를 받아들이는 곳 (일반적으로 Actuator 등)을 Subscriber라 부르죠. 두 가지 기능을 동시에 하는 경우 (Filter)도 존재할 수 있습니다.
+ROS 내용에 대한 보다 개념적인 자세한 설명은 아래 링크의 표윤석 수석연구원님의 책 53p-67p를 참고하기 바랍니다.
 
-\subsection{Several equations}\index{Theorems!Several Equations}
-This is a theorem consisting of several equations.
+\begin{link}[https://github.com/robotpilot/rosbook\_kr/blob/master/pdf/ROS\_Book\_KR.pdf]
+  : 로봇 프로그래밍 ROS로 시작하자! - 표윤석 수석연구원님 저
+\end{link}
 
-\begin{theorem}[Name of the theorem]
-In $E=\mathbb{R}^n$ all norms are equivalent. It has the properties:
-\begin{align}
-& \big| ||\mathbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||\\
-&  ||\sum_{i=1}^n\mathbf{x}_i||\leq \sum_{i=1}^n||\mathbf{x}_i||\quad\text{where $n$ is a finite integer}
-\end{align}
-\end{theorem}
+간단한 Line Follower Robot을 ROS로 구성한다고 했을 때 아래 그림과 같이 시스템을 구성해볼 수 있습니다.
 
-\subsection{Single Line}\index{Theorems!Single Line}
-This is a theorem consisting of just one line.
+\begin{figure}[h]
+\centering\includegraphics[scale=0.3]{17_ros_system_example}
+\caption{ROS System example}
+\end{figure}
 
-\begin{theorem}
-A set $\mathcal{D}(G)$ in dense in $L^2(G)$, $|\cdot|_0$.
-\end{theorem}
+센서 데이터는 Micom(Arduino, Mbed, STM32 등등)에서 일차적으로 ADC로 읽어오게 됩니다. 그리고 ADC로 읽은 데이터를 ROS에 Publish 하면 ROS 입장에서는 Data가 일정 주기로 계속 업데이트 되는 것으로 보이죠.
+모터를 제어할 때도 마찬가지입니다. ROS에서 모터 출력에 대한 변수를 하나 Publish하고, 실제로 모터를 제어하는 Micom이 해당 데이터를 Subscribe하면서 업데이트하면 ROS에서 모터제어를 할 수 있습니다.
+
+시뮬레이션 프로그램을 구동할 때도 마찬가지입니다. ROS는 시뮬레이션 모델에 대한 정보를 Topic으로 불러올 수 있습니다.
+해당 Topic들은 시뮬레이션 모델의 물리 벡터를 가지고 있습니다.(Torque, Force 등)
+이것들을 Control 하는 방법으로 시뮬레이션을 구동시킬 수 있죠.
+
+
+\subsection{Topic Publisher}
+
+\subsection{Topic Subscriber}
+
+
+% This is an example of theorems.
+%
+% \subsection{Several equations}\index{Theorems!Several Equations}
+% This is a theorem consisting of several equations.
+%
+% \begin{theorem}[Name of the theorem]
+% In $E=\mathbb{R}^n$ all norms are equivalent. It has the properties:
+% \begin{align}
+% & \big| ||\mathbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||\\
+% &  ||\sum_{i=1}^n\mathbf{x}_i||\leq \sum_{i=1}^n||\mathbf{x}_i||\quad\text{where $n$ is a finite integer}
+% \end{align}
+% \end{theorem}
+%
+% \subsection{Single Line}\index{Theorems!Single Line}
+% This is a theorem consisting of just one line.
+%
+% \begin{theorem}
+% A set $\mathcal{D}(G)$ in dense in $L^2(G)$, $|\cdot|_0$.
+% \end{theorem}
 
 %------------------------------------------------
 
