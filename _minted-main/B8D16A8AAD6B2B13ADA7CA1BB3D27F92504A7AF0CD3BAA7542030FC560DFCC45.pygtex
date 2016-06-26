@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{k}{const} \PYG{k+kt}{int} \PYG{n}{adc\PYGZus{}pin} \PYG{o}{=} \PYG{n}{A0}\PYG{p}{;}
+
+  \PYG{k+kt}{void} \PYG{n+nf}{setup}\PYG{p}{()}
+  \PYG{p}{\PYGZob{}}
+    \PYG{n}{nh}\PYG{p}{.}\PYG{n}{initNode}\PYG{p}{();}
+    \PYG{n}{nh}\PYG{p}{.}\PYG{n}{advertise}\PYG{p}{(}\PYG{n}{adc\PYGZus{}publisher}\PYG{p}{);}
+
+    \PYG{n}{pinMode}\PYG{p}{(}\PYG{n}{adc\PYGZus{}pin}\PYG{p}{,} \PYG{n}{INPUT}\PYG{p}{);}
+
+  \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

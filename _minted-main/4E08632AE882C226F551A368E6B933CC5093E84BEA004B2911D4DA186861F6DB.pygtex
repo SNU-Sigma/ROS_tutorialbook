@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{n+nb}{cd} .. \PYG{o}{(}catkin workspace 폴더로 이동\PYG{o}{)}
+  catkin\PYGZus{}make \PYG{o}{(}catkin 빌드\PYG{o}{)}
+  catkin\PYGZus{}make install \PYG{o}{(}빌드된 패키지들 인스톨\PYG{o}{)}
+\end{Verbatim}

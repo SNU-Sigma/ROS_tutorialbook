@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{k}{def} \PYG{n+nf}{chatterCallback}\PYG{p}{(}\PYG{n}{chatter}\PYG{p}{):}
+      \PYG{n}{rospy}\PYG{o}{.}\PYG{n}{loginfo}\PYG{p}{(}\PYG{n}{chatter}\PYG{o}{.}\PYG{n}{data}\PYG{p}{)}
+\end{Verbatim}

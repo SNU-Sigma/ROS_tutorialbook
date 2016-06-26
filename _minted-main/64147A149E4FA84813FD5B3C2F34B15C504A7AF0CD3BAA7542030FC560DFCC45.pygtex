@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{k+kt}{void} \PYG{n+nf}{servo\PYGZus{}cb}\PYG{p}{(} \PYG{k}{const} \PYG{n}{std\PYGZus{}msgs}\PYG{o}{::}\PYG{n}{UInt16}\PYG{o}{\PYGZam{}} \PYG{n}{cmd\PYGZus{}msg}\PYG{p}{)\PYGZob{}}
+    \PYG{n}{servo}\PYG{p}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{cmd\PYGZus{}msg}\PYG{p}{.}\PYG{n}{data}\PYG{p}{);} \PYG{c+c1}{//set servo angle, should be from 0\PYGZhy{}180}
+    \PYG{n}{digitalWrite}\PYG{p}{(}\PYG{l+m+mi}{13}\PYG{p}{,} \PYG{n}{HIGH}\PYG{o}{\PYGZhy{}}\PYG{n}{digitalRead}\PYG{p}{(}\PYG{l+m+mi}{13}\PYG{p}{));}  \PYG{c+c1}{//toggle led}
+  \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

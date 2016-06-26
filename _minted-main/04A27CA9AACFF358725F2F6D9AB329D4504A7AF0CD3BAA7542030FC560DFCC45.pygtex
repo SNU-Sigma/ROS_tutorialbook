@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{n}{ros}\PYG{o}{::}\PYG{n}{NodeHandle} \PYG{n}{nh}\PYG{p}{;}
+
+  \PYG{n}{std\PYGZus{}msgs}\PYG{o}{::}\PYG{n}{Int16} \PYG{n}{adc\PYGZus{}msg}\PYG{p}{;}
+  \PYG{n}{ros}\PYG{o}{::}\PYG{n}{Publisher} \PYG{n}{adc\PYGZus{}publisher}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}adc\PYGZus{}publisher\PYGZdq{}}\PYG{p}{,} \PYG{o}{\PYGZam{}}\PYG{n}{adc\PYGZus{}msg}\PYG{p}{);}
+\end{Verbatim}

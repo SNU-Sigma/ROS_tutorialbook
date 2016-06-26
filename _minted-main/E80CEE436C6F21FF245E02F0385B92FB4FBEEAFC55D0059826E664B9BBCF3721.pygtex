@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+  \PYG{k}{while} \PYG{o+ow}{not} \PYG{n}{rospy}\PYG{o}{.}\PYG{n}{is\PYGZus{}shutdown}\PYG{p}{():}
+      \PYG{n}{pub\PYGZus{}test}\PYG{o}{.}\PYG{n}{publish}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}hello \PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{i}\PYG{p}{))}
+      \PYG{n}{i} \PYG{o}{=} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{1}
+      \PYG{n}{rate}\PYG{o}{.}\PYG{n}{sleep}\PYG{p}{()}
+\end{Verbatim}

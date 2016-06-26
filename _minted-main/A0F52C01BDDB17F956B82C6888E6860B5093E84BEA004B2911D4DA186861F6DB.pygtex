@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  sudo chmod \PYG{l+m}{666} /serial/port/location
+  ex\PYG{o}{)} sudo chmod \PYG{l+m}{666} /dev/ttyACM0
+\end{Verbatim}

@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{n+nb}{source} /opt/ros/kinetic/setup.bash
+\end{Verbatim}

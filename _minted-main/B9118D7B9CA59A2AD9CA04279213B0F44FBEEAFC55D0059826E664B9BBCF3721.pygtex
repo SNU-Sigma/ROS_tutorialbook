@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{n}{rospy}\PYG{o}{.}\PYG{n}{init\PYGZus{}node}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}helloworldnode\PYGZsq{}}\PYG{p}{)}
+
+  \PYG{n}{pub\PYGZus{}test} \PYG{o}{=} \PYG{n}{rospy}\PYG{o}{.}\PYG{n}{Publisher}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}iterator\PYGZsq{}}\PYG{p}{,} \PYG{n}{String}\PYG{p}{,} \PYG{n}{queue\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{)}
+
+  \PYG{n}{rate} \PYG{o}{=} \PYG{n}{rospy}\PYG{o}{.}\PYG{n}{Rate}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{)}
+\end{Verbatim}

@@ -1,0 +1,29 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}ros.h\PYGZgt{}}
+  \PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}std\PYGZus{}msgs/Int16.h\PYGZgt{}}
+
+
+  \PYG{n}{ros}\PYG{o}{::}\PYG{n}{NodeHandle} \PYG{n}{nh}\PYG{p}{;}
+
+  \PYG{n}{std\PYGZus{}msgs}\PYG{o}{::}\PYG{n}{Int16} \PYG{n}{adc\PYGZus{}msg}\PYG{p}{;}
+  \PYG{n}{ros}\PYG{o}{::}\PYG{n}{Publisher} \PYG{n}{adc\PYGZus{}publisher}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}adc\PYGZus{}publisher\PYGZdq{}}\PYG{p}{,} \PYG{o}{\PYGZam{}}\PYG{n}{adc\PYGZus{}msg}\PYG{p}{);}
+
+  \PYG{k}{const} \PYG{k+kt}{int} \PYG{n}{adc\PYGZus{}pin} \PYG{o}{=} \PYG{n}{A0}\PYG{p}{;}
+
+  \PYG{k+kt}{void} \PYG{n+nf}{setup}\PYG{p}{()}
+  \PYG{p}{\PYGZob{}}
+    \PYG{n}{nh}\PYG{p}{.}\PYG{n}{initNode}\PYG{p}{();}
+    \PYG{n}{nh}\PYG{p}{.}\PYG{n}{advertise}\PYG{p}{(}\PYG{n}{adc\PYGZus{}publisher}\PYG{p}{);}
+
+    \PYG{n}{pinMode}\PYG{p}{(}\PYG{n}{adc\PYGZus{}pin}\PYG{p}{,} \PYG{n}{INPUT}\PYG{p}{);}
+
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{k+kt}{void} \PYG{n+nf}{loop}\PYG{p}{()}
+  \PYG{p}{\PYGZob{}}
+    \PYG{n}{adc\PYGZus{}msg}\PYG{p}{.}\PYG{n}{data} \PYG{o}{=} \PYG{n}{analogRead}\PYG{p}{(}\PYG{n}{A0}\PYG{p}{);}
+    \PYG{n}{adc\PYGZus{}publisher}\PYG{p}{.}\PYG{n}{publish}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{adc\PYGZus{}msg}\PYG{p}{);}
+    \PYG{n}{nh}\PYG{p}{.}\PYG{n}{spinOnce}\PYG{p}{();}
+    \PYG{n}{delay}\PYG{p}{(}\PYG{l+m+mi}{50}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

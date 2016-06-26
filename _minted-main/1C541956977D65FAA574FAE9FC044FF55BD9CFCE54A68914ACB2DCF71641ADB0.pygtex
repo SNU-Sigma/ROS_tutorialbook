@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{k+kn}{import} \PYG{n+nn}{rospy}
+  \PYG{k+kn}{from} \PYG{n+nn}{std\PYGZus{}msgs.msg} \PYG{k+kn}{import} \PYG{n}{String}
+\end{Verbatim}

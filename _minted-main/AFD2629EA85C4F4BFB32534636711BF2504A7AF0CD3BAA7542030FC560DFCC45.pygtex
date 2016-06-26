@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{n}{ros}\PYG{o}{::}\PYG{n}{Subscriber}\PYG{o}{\PYGZlt{}}\PYG{n}{std\PYGZus{}msgs}\PYG{o}{::}\PYG{n}{UInt16}\PYG{o}{\PYGZgt{}} \PYG{n}{sub}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}servo\PYGZdq{}}\PYG{p}{,} \PYG{n}{servo\PYGZus{}cb}\PYG{p}{);}
+\end{Verbatim}

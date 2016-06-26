@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{n+nb}{cd} \PYG{o}{(}홈 디렉토리로 이동\PYG{o}{)}
+  mkdir catkin\PYGZus{}workspace \PYG{o}{(}catkin workspace 폴더 생성\PYG{o}{)}
+  \PYG{n+nb}{cd} catkin\PYGZus{}workspace \PYG{o}{(}catkin workspace 폴더로 이동\PYG{o}{)}
+  mkdir src \PYG{o}{(}소스 폴더 생성\PYG{o}{)}
+  \PYG{n+nb}{cd} src \PYG{o}{(}소스 폴더로 이동\PYG{o}{)}
+  git clone https://github.com/ros\PYGZhy{}drivers/rosserial.git \PYG{o}{(}rosserial 저장소 가져오기\PYG{o}{)}
+\end{Verbatim}

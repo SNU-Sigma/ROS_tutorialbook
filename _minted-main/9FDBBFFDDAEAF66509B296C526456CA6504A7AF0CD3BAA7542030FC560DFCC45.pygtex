@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{k+kt}{void} \PYG{n+nf}{loop}\PYG{p}{()\PYGZob{}}
+    \PYG{n}{nh}\PYG{p}{.}\PYG{n}{spinOnce}\PYG{p}{();}
+    \PYG{n}{delay}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

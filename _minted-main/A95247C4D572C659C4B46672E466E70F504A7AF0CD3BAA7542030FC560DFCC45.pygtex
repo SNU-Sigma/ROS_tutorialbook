@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{k+kt}{void} \PYG{n+nf}{setup}\PYG{p}{()\PYGZob{}}
+    \PYG{n}{pinMode}\PYG{p}{(}\PYG{l+m+mi}{13}\PYG{p}{,} \PYG{n}{OUTPUT}\PYG{p}{);}
+
+    \PYG{n}{nh}\PYG{p}{.}\PYG{n}{initNode}\PYG{p}{();}
+    \PYG{n}{nh}\PYG{p}{.}\PYG{n}{subscribe}\PYG{p}{(}\PYG{n}{sub}\PYG{p}{);}
+
+    \PYG{n}{servo}\PYG{p}{.}\PYG{n}{attach}\PYG{p}{(}\PYG{l+m+mi}{9}\PYG{p}{);} \PYG{c+c1}{//attach it to pin 9}
+  \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

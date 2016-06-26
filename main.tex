@@ -44,6 +44,8 @@
 
 \documentclass[11pt,fleqn]{book} % Default font size and left-justified equations
 
+\usepackage{listings}
+\usepackage{minted}
 %----------------------------------------------------------------------------------------
 
 \input{structure} % Insert the commands.tex file which contains the majority of the structure behind the template
@@ -459,7 +461,7 @@ ROS 지원 블록을 설치하는 것을 잊지 마세요. 아래 링크를 이�
 
 \chapter{ROS Basics}
 
-\section{ROS Topic}\index{ROS Topic}
+\section{ROS Topic 개요}\index{ROS Topic 개요}
 
 ROS에서 Topic은 비동기로 작동하는 시스템 변수로 볼 수 있습니다. 이 변수를 발행하는 곳(일반적으로 센서)을 Publisher라고 부르고,
 이 변수를 받아들이는 곳 (일반적으로 Actuator 등)을 Subscriber라 부르죠. 두 가지 기능을 동시에 하는 경우 (Filter)도 존재할 수 있습니다.
@@ -479,7 +481,7 @@ ROS 내용에 대한 보다 개념적인 자세한 설명은 아래 링크의 �
 센서 데이터는 Micom(Arduino, Mbed, STM32 등등)에서 일차적으로 ADC로 읽어오게 됩니다. 그리고 ADC로 읽은 데이터를 ROS에 Publish 하면 ROS 입장에서는 Data가 일정 주기로 계속 업데이트 되는 것으로 보이죠.
 모터를 제어할 때도 마찬가지입니다. ROS에서 모터 출력에 대한 변수를 하나 Publish하고, 실제로 모터를 제어하는 Micom이 해당 데이터를 Subscribe하면서 업데이트하면 ROS에서 모터제어를 할 수 있습니다.
 
-\section{Topic Publisher}
+\section{Basic Topic Publisher}
 
 \subsection{Rqt를 이용한 Topic Publisher}
 
@@ -511,10 +513,545 @@ rqt에서는 기본 topic publisher를 제공합니다. Plugins -> Topics -> Mes
 Gazebo는 프로그램에서 해당 모델의 상태를 바꾸어줍니다. 해당 topic을 publish하기 위해서 오른쪽의 \+ 버튼을 눌러 publisher를 추가합니다.
 그리고 publish할 message를 아래와 같이 설정합니다. 아래와 같이 설정했을 때 i는 rate가 하나 지날 때 마다 1씩 올라가는 변수이므로, 약 63초마다 원은 원점을 따라서 한 바퀴씩 움직이게 될 것입니다.
 
+\begin{figure}[h]
+\centering\includegraphics[scale=0.35]{20_rqt_gazebo_topic_pub}
+\caption{rqt topic message publisher}
+\end{figure}
+
 rqt는 topic 제어 이외에도 여러 기능을 가지고 있기 때문에 간단히 훑어보시는 것도 좋을 것입니다.
 특히, Matlab을 사용하지 않는 경우 rqt의 plot 기능은 매우 유용하게 사용할 수 있습니다.
 
-\subsection{Python을 이용한 Topic }
+\subsection{Python을 이용한 Topic Publisher}
+
+아래와 같이 파이선 프로그램을 따라서 작성해봅시다.
+
+\begin{minted}[linenos ,numberblanklines=false]{python}
+  import rospy
+  from std_msgs.msg import String
+
+  rospy.init_node('helloworldnode')
+
+  pub_test = rospy.Publisher('iterator', String, queue_size=10)
+
+  rate = rospy.Rate(10)
+
+  i = 0
+
+  while not rospy.is_shutdown():
+      pub_test.publish("hello "+str(i))
+      i = i + 1
+      rate.sleep()
+
+\end{minted}
+
+코드를 분석하면서 각각이 어떤 부분인지 알아보도록 하죠.
+
+\begin{minted}[linenos,numberblanklines=false]{python}
+  import rospy
+  from std_msgs.msg import String
+
+\end{minted}
+
+파이선 ROS 패키지들을 가져오는 부분입니다. 파이선은 자료형을 구분하지 않고 사용하지만, ROS의 Topic은 자료형을 꼭 지정해야 합니다.
+그래서 String 메세지 패키지를 가져와서 사용하는 것입니다. 이번에 만들 Publisher가 Publish 하는 Topic은 String 형입니다.
+
+\begin{minted}[linenos, firstnumber=last, numberblanklines=false]{python}
+
+  rospy.init_node('helloworldnode')
+
+  pub_test = rospy.Publisher('iterator', String, queue_size=10)
+
+  rate = rospy.Rate(10)
+\end{minted}
+
+3행에서는 ROS 노드(ROS 프로그램의 단위)를 initialize 합니다. 이 프로그램을 ROS 상에서 helloworldnode라는 이름으로 불리게 됩니다.
+4행에서는 pub\_test 라는 Publisher 객체를 선언합니다. 이 topic Publisher의 이름은 iterator이고, String 형식의 메세지를 Publish하며, Queue Size 는 10입니다.
+5행에서는 이 노드가 동작하는 Frequency를 정하고 있습니다. 이 노드는 뒤에 나온 것과 같이 while문을 구성해주면, 초당 10번 불리게 됩니다.
+
+\begin{minted}[linenos, firstnumber=last, numberblanklines=false]{python}
+
+  i = 0
+
+  while not rospy.is_shutdown():
+      pub_test.publish("hello "+str(i))
+      i = i + 1
+      rate.sleep()
+\end{minted}
+
+6행에서는 i 변수를 만듭니다.
+7행에서는 ROS가 동작하고 있는 한 지속적으로 루프를 돌게되는 무한루프 문을 만듭니다.
+8행에서는 publish가 이루어집니다. publish 함수는 해당 topic의 데이터에 해당하는 부분을 input으로 받습니다.
+9행에서는 i 변수를 증가시킵니다.
+
+이 파이선 프로그램을 아래 커멘드 라인 명령어를 이용해 실행시킵니다. (python\_file\_path 와 python\_file\_name은 각자 파이선 파일을 만든 경로와 이름에 따라 다를 것입니다.)
+
+\begin{minted}{bash}
+  python /python_file_path/python_file_name.py
+\end{minted}
+
+에러가 나오지 않는다면 다른 터미널 창을 켜고 아래 명령어를 입력합니다.
+
+\begin{minted}{bash}
+  rostopic echo /iterator
+\end{minted}
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.28]{21_topic_echo}
+\caption{rostopic echo}
+\end{figure}
+
+위와 같이 초당 10번의 메세지가 출력되면 성공입니다. 다른 종류의 Topic에 대해 Publish하고 싶다면 해당 Topic의 자료형에 맞는 형태를 들고와야 합니다.
+예를 들어 앞서 rqt에서 했던 Gazebo set\_model\_state Topic의 경우에는 자료형이 ModelState이기 때문에 해당 자료형을 들고와서 사용해주어야 합니다.
+예를 들면, rqt에서 했던 것과 같은 작업을 하는 python 코드는 아래와 같습니다.
+
+\begin{minted}[linenos=true, numberblanklines=false]{python}
+  import rospy
+  import numpy as np
+  from gazebo_msgs.msg import ModelState
+
+  rospy.init_node('gazebo_example_node')
+  ms = ModelState()
+
+  pub_test = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=10)
+
+  rate = rospy.Rate(1)
+
+  i = 0
+
+  while not rospy.is_shutdown():
+      ms.model_name = 'unit_sphere_0'
+      ms.pose.position.x = np.sin(i * 0.1)
+      ms.pose.position.y = np.cos(i * 0.1)
+      pub_test.publish(ms)
+      i = i + 1
+      rate.sleep()
+
+\end{minted}
+
+\subsection{Arduino를 이용한 Topic Publisher}
+
+이번엔 하드웨어에서 Topic을 불러들여오는 작업을 해보겠습니다.
+가장 보편적으로 쓰이는 Micom인 아두이노를 이용해서 ROS Topic을 Publish하는 방법에 대해 이야기하겠습니다.
+아래 사진과 같이 아두이노를 구성하고, 컴퓨터와 연결해주세요.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.28]{22_arduino_connect}
+\caption{rostopic echo}
+\end{figure}
+
++5V <-> POT1
+
+A0 <-> POT2
+
+GND <-> POT3
+
+위와 같이 연결해주면 됩니다. 아두이노와 컴퓨터를 ROS로 연결하기 위해서는 rosserial이라는 패키지를 설치해야 합니다.
+2016.06 기준 Kinetic에서는 apt-get 패키지로 rosserial이 지원되지 않기 때문에 catkin 빌드 과정을 거쳐야 합니다.
+indigo, jade 사용자라면 아래와 같이 입력하면 간단하게 rosserial package가 설치됩니다.
+
+\begin{minted}{bash}
+  sudo apt-get install ros-indigo-rosserial  (indigo)
+  sudo apt-get install ros-jade-rosserial  (jade)
+\end{minted}
+
+kinetic 사용자라면, catkin 빌드 과정을 거쳐야 하는데, 패키지 설치 연습을 해보기 위해 jade, indigo 사용자분들도 따라해보시길 권장합니다.
+먼저 아래 링크로 이동해서 패키지의 remote 저장소 주소를 가져옵니다.
+
+\begin{link}[https://github.com/ros-drivers/rosserial]
+  : rosserial git 저장소
+\end{link}
+
+그리고 아래와 같이 catkin\_workspace를 생성하고 저장소 주소를 통해 소스를 가져옵니다.
+괄호 안의 내용은 설명이므로 입력하지 마세요.
+
+\begin{minted}{bash}
+  cd (홈 디렉토리로 이동)
+  mkdir catkin_workspace (catkin workspace 폴더 생성)
+  cd catkin_workspace (catkin workspace 폴더로 이동)
+  mkdir src (소스 폴더 생성)
+  cd src (소스 폴더로 이동)
+  git clone https://github.com/ros-drivers/rosserial.git (rosserial 저장소 가져오기)
+\end{minted}
+
+clone이 끝나면 상위 디렉토리로 이동해서 catkin 패키지를 빌드합니다.
+
+\begin{minted}{bash}
+  cd .. (catkin workspace 폴더로 이동)
+  catkin_make (catkin 빌드)
+  catkin_make install (빌드된 패키지들 인스톨)
+\end{minted}
+
+그리고 리눅스 쉘 명령어 집합인 bash(zsh을 쓰는 분이면 뒤의 과정을 전부 zsh로 진행하시면 됩니다.)에 새로 인스톨한 패키지를 등록하기 위해서는 아래와 같은 과정을 수행해야 합니다.
+catkin\_workspace 안쪽의 install 폴더가 생성되어있을텐데, 여기에 있는 setup.bash file을 실행해주어야 해당 터미널에서 새로 설치한 패키지들을 사용할 수 있습니다.
+그러나 터미널을 켤 때마다 이것을 실행시키는 것은 매우 귀찮은 일이죠. 그래서 자동으로 터미널이 처음 로드될 때마다 해당 bash file이 실행되도록 설정해봅시다.
+아래 명령어를 이용해서 bash 설정파일인 .bashrc를 열어서 수정해봅시다.
+
+\begin{minted}{bash}
+  cd
+  gedit .bashrc
+\end{minted}
+
+아래와 같은 창이 열리는데, 가장 아래로 이동해보시면, ROS를 제대로 설치하셨다는 가정 하에 한 줄의 코드가 있을 것입니다.
+
+\begin{minted}{bash}
+  source /opt/ros/kinetic/setup.bash
+\end{minted}
+
+이 코드는 bash를 실행할 때 저 경로에 있는 setup.bash 파일을 실행한다는 뜻입니다.
+이번엔 catkin workspace의 install 폴더의 setup.bash를 실행시켜야 하므로 아래와 같이 코드를 한 줄 넣어주면 됩니다.
+
+\begin{minted}{bash}
+  source ~/catkin_workspace/install/setup.bash
+\end{minted}
+
+새로운 터미널을 켜고, rospack 명령어를 통해 ros 패키지가 정상적으로 설치되었는지 확인해봅시다.
+
+\begin{minted}{bash}
+  rospack list
+\end{minted}
+
+rosserial은 리눅스 컴퓨터에 설치된 Main ROS와 외부 하드웨어 ROS 노드를 Serial 통신으로 연결합니다.
+그러면 외부 ROS 노드 또한 ROS 라이브러리를 불러와서 작성해주고, 코드를 넣어주어야겠죠. 아두이노는 기본으로
+ROS 라이브러리를 포함하고 있지 않기에 라이브러리를 설치해주어야 합니다.
+아두이노 설치폴더로 이동한 뒤 아래와 같은 명령어를 입력해서 ROS Serial 라이브러리를 설치합니다.
+
+\begin{minted}{bash}
+  cd libraries
+  rosrun rosserial_arduino make_libraries.py .
+\end{minted}
+
+라이브러리 설치 후 아래 코드를 컴파일해서 아두이노에 넣어봅시다. 혹시나 SerialPort Permission 때문에 코드 업로드가 되지 않는다면 아래 명령어를 입력하세요.
+
+\begin{minted}{bash}
+  sudo chmod 666 /serial/port/location
+  ex) sudo chmod 666 /dev/ttyACM0
+\end{minted}
+
+\begin{minted}[linenos ,numberblanklines=false]{cpp}
+  #include <ros.h>
+  #include <std_msgs/Int16.h>
+
+
+  ros::NodeHandle nh;
+
+  std_msgs::Int16 adc_msg;
+  ros::Publisher adc_publisher("adc_publisher", &adc_msg);
+
+  const int adc_pin = A0;
+
+  void setup()
+  {
+    nh.initNode();
+    nh.advertise(adc_publisher);
+
+    pinMode(adc_pin, INPUT);
+
+  }
+
+  void loop()
+  {
+    adc_msg.data = analogRead(A0);
+    adc_publisher.publish(&adc_msg);
+    nh.spinOnce();
+    delay(50);
+  }
+\end{minted}
+
+위의 코드는 아두이노에서 A0핀의 ADC 값을 읽은 뒤 50ms 주기로 데이터를 보내주는 코드입니다.
+코드 내용을 나누어서 분석해봅시다.
+
+\begin{minted}[linenos ,numberblanklines=false]{cpp}
+  #include <ros.h>
+  #include <std_msgs/Int16.h>
+\end{minted}
+
+ros header file을 가져옵니다. Int16 형식의 Topic을 해석하고 보내기 위한 헤더 또한 가져옵니다.
+
+\begin{minted}[linenos, firstnumber=last ,numberblanklines=false]{cpp}
+  ros::NodeHandle nh;
+
+  std_msgs::Int16 adc_msg;
+  ros::Publisher adc_publisher("adc_publisher", &adc_msg);
+\end{minted}
+
+3행에서는 ROS의 node를 설정하기 위한 객체를 선언하고
+4행에서는 Int16 형식의 메세지를 선언합니다.
+5행에서는 Publisher를 선언하고, 해당 Publisher가 받을 메세지 객체를 포인터로 넘겨줍니다.
+
+\begin{minted}[linenos, firstnumber=last ,numberblanklines=false]{cpp}
+  const int adc_pin = A0;
+
+  void setup()
+  {
+    nh.initNode();
+    nh.advertise(adc_publisher);
+
+    pinMode(adc_pin, INPUT);
+
+  }
+\end{minted}
+
+6행에서는 하드웨어에서 adc\_pin 을 A0 핀으로 정의합니다.
+9행에서는 ROS node를 초기화합니다.
+10행에서는 노드에서 해당 publisher를 등록합니다.
+11행에서는 하드웨어 adc\_pin 을 input으로 정의합니다.
+
+\begin{minted}[linenos, firstnumber=last ,numberblanklines=false]{cpp}
+  void loop()
+  {
+    adc_msg.data = analogRead(A0);
+    adc_publisher.publish(&adc_msg);
+    nh.spinOnce();
+    delay(50);
+  }
+\end{minted}
+
+15행에서는 adc\_msg의 data를 A0핀에서 읽어온 ADC 값으로 채워넣습니다.
+16행에서는 publisher가 topic을 publish합니다.
+17행에서 spinOnce 함수를 불러오며 실제 데이터 교환이 일어납니다.
+18행에서 1/20 초 딜레이를 줍니다.
+
+코드를 아두이노에 올린 뒤에는 아래 명령어를 통해 컴퓨터와 아두이노를 연결하세요. 아두이노의 시리얼 포트를 잘 기억하고 있으셔야 합니다.
+터미널에 아래와 같이 명령어를 입력해서 rosserial\_python package를 실행하세요. 잠시 기다리면 아두이노와 통신을 시작합니다.
+만약 시리얼포트 번호가 /dev/ttyACM0가 아니라면 아래의 포트 번호를 자신의 시스템에 맞는 번호로 바꾸어주세요.
+
+\begin{minted}{bash}
+  rosrun rosserial_python serial_node.py /dev/ttyACM0
+\end{minted}
+
+아래 터미널 창과 같이 rosserial 창이 실행되면 성공입니다. rosserial로 연결된 뒤에는 어떤 topic이 rosserial을 통해 공유되고 있는지에 대한 정보가 같이 들어옵니다.
+이제 해당 topic은 ROS에서 python, Matlab 등의 언어를 이용해여 subscribe가 가능합니다.
+하지만 주의해야 하는 점은 rosserial은 serial 통신이라는 상대적으로 저속의 통신으로 연결되기 때문에 생각보다 많은 topic을 실시간으로 공유하지는 못합니다.
+topic이 많아진다면 slave 하드웨어 (아두이노 등)을 더 좋은 성능의 것으로 업그레이드 하는 것을 추천합니다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.28]{23_rosserial_run}
+\caption{rostopic echo}
+\end{figure}
+
+이제 rqt로 Publish 된 데이터를 확인해봅시다. rqt의 matplot을 이용하면 아래와 같이 데이터를 뽑아서 볼 수 있습니다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.28]{24_rqt_matplot}
+\caption{rostopic echo}
+\end{figure}
+
+\section{Basic Topic Subscriber}
+
+이제는 여러 가지 환경에서 Topic을 Subscribe하는 방법에 대해 알아보도록 하겠습니다. Subscribe는 Publish된 Topic을 가져오는 것으로, 가져온 데이터를 이용해 프로그램의 동작을 결정하거나 할 수 있습니다.
+앞서 소개한 커맨드라인 도구인 rostopic echo 또한 topic subscribe를 하는 프로그램 중 하나입니다.
+이번 단원 역시 rqt, Python, Arduino 등을 이용해서 Topic을 제어하는 연습을 해보도록 하겠습니다.
+하나 더 추가해서, Matlab Simulink를 이용한 Topic 제어 또한 이야기할테니 차근차근 따라와 주세요.
+
+\subsection{rqt를 이용한 Topic Subscribe}
+
+subscribe할 Topic을 뽑아주는 Publish node로 사용하기 위해서
+앞서 작성한 Gazebo에 Topic을 Publish하는 Python ROS node를 실행시킵니다.
+그리고 rqt를 실행시키고 Topic 모니터를 켜면 아래와 같은 화면을 볼 수 있습니다.
+Topic에 대한 정보가 완전히 표시되는 것을 확인할 수 있으며, 업데이트 또한 실시간으로 됩니다.
+단순한 모니터링 용도라면 rqt를 이용해서 Topic을 보는 것이 가장 효율적입니다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.4]{25_rqt_subscribe}
+\caption{rqt Topic Mointor}
+\end{figure}
+
+\subsection{Python을 이용한 Topic Subscribe}
+
+아래와 같이 파이선 프로그램을 작성해봅시다. 해당 파이선 프로그램은 chatter라는 이름의 topic을 읽어와서 그 데이터를 출력해주는 프로그램입니다.
+
+
+\begin{minted}[linenos ,numberblanklines=false]{Python}
+  import rospy
+  from std_msgs.msg import String
+
+
+  def chatterCallback(chatter):
+      rospy.loginfo(chatter.data)
+
+
+  def listener():
+      rospy.init_node('chatter_node')
+      rospy.Subscriber("chatter", String, chatterCallback)
+      rospy.spin()
+
+  if __name__ == '__main__':
+      listener()
+\end{minted}
+
+앞서 Topic Publish에서 했던 내용들도 많이 있는데, 이번에도 부분부분 나누어 설명을 해보도록 하겠습니다.
+
+\begin{minted}[linenos , numberblanklines=false]{Python}
+  import rospy
+  from std_msgs.msg import String
+\end{minted}
+
+rospy 패키지와 standard message 패키지를 불러옵니다.
+
+\begin{minted}[linenos, firstnumber=last, numberblanklines=false]{Python}
+
+  def chatterCallback(chatter):
+      rospy.loginfo(chatter.data)
+
+\end{minted}
+
+chatterCallback이라는 이름의 callback 함수를 정의합니다. callback 함수란 특정 상황에서 불리도록 설정된 함수로,
+사용자 입장에서는 이벤트 함수와 비슷한 개념이라고 보시면 됩니다.
+해당 함수는 Subscribe 하고 있는 topic에 대한 데이터가 들어왔을 때 불리는 callback 함수로 지정될 것입니다.
+callback이 일어나고 나면 해당 함수는 subscribe하는 topic을 객체로 들고옵니다. 그 객체가 callback 함수의 parameter로, 여기에서는 chatter 객체입니다.
+결론적으론 해당 객제의 data를 log 함수에 넣어서 ros에서 데이터 로그를 찍게 하는거죠.
+
+\begin{minted}[linenos, firstnumber=last, numberblanklines=false]{Python}
+
+  def listener():
+      rospy.init_node('chatter_node')
+      rospy.Subscriber("chatter", String, chatterCallback)
+      rospy.spin()
+
+\end{minted}
+
+6행에서 노드 초기화, 7행에서 Subscriber 설정 및 callback 함수 지정이 이루어집니다.
+8행에서는 spin 함수를 이용해서 노드가 roscore가 죽지 않는 이상 계속 동작하도록 만듭니다.
+
+\begin{minted}[linenos, firstnumber=last, numberblanklines=false]{Python}
+
+  if __name__ == '__main__':
+      listener()
+
+\end{minted}
+
+listener 함수를 실행시킵니다.
+
+이제 해당 파이선 파일을 실행시키고, rqt에서 무언가 chatter topic을 아래와 같이 publish 해봅시다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.4]{26_rqt_publisher}
+\caption{rqt hello publisher}
+\end{figure}
+
+파이선 프로그램을 연 터미널에서는 아래와 같이 1초마다 로그를 전송할 것입니다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.4]{27_python_subscriber}
+\caption{python subscriber example}
+\end{figure}
+
+\subsection{Arduino를 이용한 Topic Subscribe}
+
+Topic Subscriber를 작성하기 위해 아두이노 하드웨어를 아래 사진과 같이 구성해봅시다.
+
+아래와 같이 프로그램을 짜봅시다. 해당 프로그램은 ros 예제에도 수록되어 있습니다.
+
+\begin{minted}[linenos, numberblanklines=false]{cpp}
+
+#include <Servo.h>
+#include <ros.h>
+#include <std_msgs/UInt16.h>
+
+ros::NodeHandle  nh;
+
+Servo servo;
+
+void servo_cb( const std_msgs::UInt16& cmd_msg){
+  servo.write(cmd_msg.data); //set servo angle, should be from 0-180
+  digitalWrite(13, HIGH-digitalRead(13));  //toggle led
+}
+
+
+ros::Subscriber<std_msgs::UInt16> sub("servo", servo_cb);
+
+void setup(){
+  pinMode(13, OUTPUT);
+
+  nh.initNode();
+  nh.subscribe(sub);
+
+  servo.attach(9); //attach it to pin 9
+}
+
+void loop(){
+  nh.spinOnce();
+  delay(1);
+}
+
+\end{minted}
+
+지금까지와 같이 부분별로 분석해봅시다.
+
+\begin{minted}[linenos, numberblanklines=false]{cpp}
+
+#include <Servo.h>
+#include <ros.h>
+#include <std_msgs/UInt16.h>
+
+\end{minted}
+
+서보모터 컨트롤, ROS, standard message 라이브러리를 불러옵니다.
+
+\begin{minted}[linenos, firstnumber=last, numberblanklines=false]{cpp}
+  ros::NodeHandle  nh;
+
+  Servo servo;
+\end{minted}
+
+ros node와 서보모터 객체를 선언합니다.
+
+\begin{minted}[linenos, firstnumber=last, numberblanklines=false]{cpp}
+  void servo_cb( const std_msgs::UInt16& cmd_msg){
+    servo.write(cmd_msg.data); //set servo angle, should be from 0-180
+    digitalWrite(13, HIGH-digitalRead(13));  //toggle led
+  }
+\end{minted}
+
+서보모터 subscriber에 대한 callback 함수를 만듭니다.
+6행에서 보면 이 callback 함수는 standard message의 UInt16 type message를 parameter로 받습니다.
+그리고 7행에서 보면 해당 메세지 데이터를 servo 객체에 써 넣어줍니다.
+
+\begin{minted}[linenos, firstnumber=last, numberblanklines=false]{cpp}
+  ros::Subscriber<std_msgs::UInt16> sub("servo", servo_cb);
+\end{minted}
+
+ROS Subscriber 객체를 선언하고, 해당 객체를 servo 라는 이름의 topic과 연결합니다. 그리고 해당 Subscriber의 Callback 함수로 servo\_cb를 지정합니다.
+
+\begin{minted}[linenos, firstnumber=last, numberblanklines=false]{cpp}
+  void setup(){
+    pinMode(13, OUTPUT);
+
+    nh.initNode();
+    nh.subscribe(sub);
+
+    servo.attach(9); //attach it to pin 9
+  }
+\end{minted}
+
+setup과정을 수행합니다. 13행에서 node를 초기화하고, 14행에서 subscribe 객체를 node에 연결합니다.
+15행에서 9번 핀에 연결되는 서보를 초기화합니다.
+
+\begin{minted}[linenos, firstnumber=last, numberblanklines=false]{cpp}
+  void loop(){
+    nh.spinOnce();
+    delay(1);
+  }
+\end{minted}
+
+spinOnce 함수를 호출하면서 실제로 rosserial\_py 와 통신이 이루어집니다. 그 뒤 1ms의 딜레이를 가지고,
+spinOnce 작업을 반복적으로 수행합니다.
+
+rqt를 이용해서 실제로 서보모터를 ROS로 구동해봅시다. 아래와 같이 topic publisher를 설정한 뒤 실행시키면 서보모터가 3초 주기로 sweep 하는 것을 볼 수 있습니다.
+i는 rqt에서 Publish할 때마다 1씩 증가하는 함수로, 아래와 같이 rqt설정을 했을 시에는 초당 100씩 증가하는 변수로 생각하면 됩니다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.5]{28_rqt_servo}
+\caption{rqt servo example}
+\end{figure}
+
+\section{Topic Publisher \& Subscriber 응용}
+
+\subsection{Matlab Simulink를 이용한 Topic 제어}
+
+Matlab은 많은 엔지니어가 사용하는 플랫폼으로, 여러 공학적 프리셋들을 매우 신뢰도 있게 제공해줍니다. 특히 신호처리에서는 Matlab보다 나은 플랫폼을 찾기 어려운 정도인데요,
+놀랍게도 Matlab도 ROS 연동이 가능합니다. 심지어 매우 잘 됩니다. 그래서 이번 단원에서는 Matlab을 어떻게 ROS와 연동시키는지에 대해 이야기하고자 합니다. Matlab 언어를 이용해 진행할 수도 있지만,
+이번 단원에서는 Simulink를 이용해서 진행하도록 하겠습니다. Matlab을 켜고 
 
 
 % This is an example of theorems.
@@ -525,7 +1062,7 @@ rqt는 topic 제어 이외에도 여러 기능을 가지고 있기 때문에 간
 % \begin{theorem}[Name of the theorem]
 % In $E=\mathbb{R}^n$ all norms are equivalent. It has the properties:
 % \begin{align}
-% & \big| ||\mathbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||\\
+% & \big| ||\mahbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||\\
 % &  ||\sum_{i=1}^n\mathbf{x}_i||\leq \sum_{i=1}^n||\mathbf{x}_i||\quad\text{where $n$ is a finite integer}
 % \end{align}
 % \end{theorem}

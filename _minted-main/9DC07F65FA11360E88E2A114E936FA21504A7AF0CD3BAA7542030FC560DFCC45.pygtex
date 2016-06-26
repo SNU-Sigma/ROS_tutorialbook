@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{k+kt}{void} \PYG{n+nf}{loop}\PYG{p}{()}
+  \PYG{p}{\PYGZob{}}
+    \PYG{n}{adc\PYGZus{}msg}\PYG{p}{.}\PYG{n}{data} \PYG{o}{=} \PYG{n}{analogRead}\PYG{p}{(}\PYG{n}{A0}\PYG{p}{);}
+    \PYG{n}{adc\PYGZus{}publisher}\PYG{p}{.}\PYG{n}{publish}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{adc\PYGZus{}msg}\PYG{p}{);}
+    \PYG{n}{nh}\PYG{p}{.}\PYG{n}{spinOnce}\PYG{p}{();}
+    \PYG{n}{delay}\PYG{p}{(}\PYG{l+m+mi}{50}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

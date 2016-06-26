@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  sudo apt\PYGZhy{}get install ros\PYGZhy{}indigo\PYGZhy{}rosserial  \PYG{o}{(}indigo\PYG{o}{)}
+  sudo apt\PYGZhy{}get install ros\PYGZhy{}jade\PYGZhy{}rosserial  \PYG{o}{(}jade\PYG{o}{)}
+\end{Verbatim}

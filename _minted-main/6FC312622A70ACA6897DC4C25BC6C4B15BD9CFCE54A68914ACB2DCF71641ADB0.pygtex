@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{k}{def} \PYG{n+nf}{listener}\PYG{p}{():}
+      \PYG{n}{rospy}\PYG{o}{.}\PYG{n}{init\PYGZus{}node}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}chatter\PYGZus{}node\PYGZsq{}}\PYG{p}{)}
+      \PYG{n}{rospy}\PYG{o}{.}\PYG{n}{Subscriber}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}chatter\PYGZdq{}}\PYG{p}{,} \PYG{n}{String}\PYG{p}{,} \PYG{n}{chatterCallback}\PYG{p}{)}
+      \PYG{n}{rospy}\PYG{o}{.}\PYG{n}{spin}\PYG{p}{()}
+\end{Verbatim}
