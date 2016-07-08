@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  rosrun gazebo\PYGZus{}ros gazebo
+\end{Verbatim}

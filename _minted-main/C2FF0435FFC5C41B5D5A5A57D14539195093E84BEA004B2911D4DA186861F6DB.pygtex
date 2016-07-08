@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{n+nb}{cd} \PYGZti{}/catkin\PYGZus{}workspace/src \PYG{o}{(}catkin \PYG{n+nb}{source} 폴더로 이동\PYG{o}{)}
+  git clone https://github.com/RobotWebTools/rosbridge\PYGZus{}suite \PYG{o}{(}rosbridge \PYG{n+nb}{source} 받아오기\PYG{o}{)}
+  git clone https://github.com/GT\PYGZhy{}RAIL/rosauth \PYG{o}{(}rosbridge dependency rosauth 받아오기\PYG{o}{)}
+  sudo apt\PYGZhy{}get install python\PYGZhy{}bson \PYG{o}{(}rosbridge dependency \PYG{o}{)}
+  \PYG{n+nb}{cd} .. \PYG{o}{(}catkin 폴더로 이동\PYG{o}{)}
+  catkin\PYGZus{}make \PYG{o}{(}catkin project build\PYG{o}{)}
+  catkin\PYGZus{}make install \PYG{o}{(}catkin project install\PYG{o}{)}
+\end{Verbatim}

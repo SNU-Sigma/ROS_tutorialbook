@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{n+nx}{rosTestApp}\PYG{p}{.}\PYG{n+nx}{controller}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}rosController\PYGZdq{}}\PYG{p}{,[}\PYG{l+s+s1}{\PYGZsq{}\PYGZdl{}scope\PYGZsq{}}\PYG{p}{,}\PYG{k+kd}{function}\PYG{p}{(}\PYG{n+nx}{\PYGZdl{}scope}\PYG{p}{)\PYGZob{}}
+  \PYG{n+nx}{\PYGZdl{}scope}\PYG{p}{.}\PYG{n+nx}{sendTopic} \PYG{o}{=} \PYG{k+kd}{function}\PYG{p}{(}\PYG{n+nx}{chatData}\PYG{p}{)\PYGZob{}}
+    \PYG{k+kd}{var} \PYG{n+nx}{chatter} \PYG{o}{=} \PYG{k}{new} \PYG{n+nx}{ROSLIB}\PYG{p}{.}\PYG{n+nx}{Topic}\PYG{p}{(}
+      \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{ros} \PYG{o}{:} \PYG{n+nx}{ros}\PYG{p}{,}
+        \PYG{n+nx}{name} \PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}/chatter\PYGZsq{}}\PYG{p}{,}
+        \PYG{n+nx}{messageType} \PYG{o}{:} \PYG{l+s+s1}{\PYGZsq{}std\PYGZus{}msgs/String\PYGZsq{}}
+      \PYG{p}{\PYGZcb{}}
+    \PYG{p}{);}
+    \PYG{k+kd}{var} \PYG{n+nx}{chat} \PYG{o}{=} \PYG{k}{new} \PYG{n+nx}{ROSLIB}\PYG{p}{.}\PYG{n+nx}{Message}\PYG{p}{(}
+      \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{data} \PYG{o}{:} \PYG{n+nx}{chatData}
+      \PYG{p}{\PYGZcb{}}
+    \PYG{p}{)}
+    \PYG{n+nx}{chatter}\PYG{p}{.}\PYG{n+nx}{publish}\PYG{p}{(}\PYG{n+nx}{chat}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}]);}\PYG{n+nx}{\PYGZdl{}}
+\end{Verbatim}

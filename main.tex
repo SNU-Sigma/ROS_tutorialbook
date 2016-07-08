@@ -459,7 +459,7 @@ ROS 지원 블록을 설치하는 것을 잊지 마세요. 아래 링크를 이�
 %	CHAPTER 2
 %----------------------------------------------------------------------------------------
 
-\chapter{ROS Basics}
+\chapter{ROS Topic}
 
 \section{ROS Topic 개요}\index{ROS Topic 개요}
 
@@ -702,6 +702,7 @@ catkin\_workspace 안쪽의 install 폴더가 생성되어있을텐데, 여기�
 
 \begin{minted}{bash}
   source ~/catkin_workspace/install/setup.bash
+  source ~/catkin_workspace/devel/setup.bash
 \end{minted}
 
 새로운 터미널을 켜고, rospack 명령어를 통해 ros 패키지가 정상적으로 설치되었는지 확인해봅시다.
@@ -973,7 +974,8 @@ void loop(){
   nh.spinOnce();
   delay(1);
 }
-
+ce();
+  delay(1);
 \end{minted}
 
 지금까지와 같이 부분별로 분석해봅시다.
@@ -1038,10 +1040,10 @@ spinOnce 함수를 호출하면서 실제로 rosserial\_py 와 통신이 이루�
 spinOnce 작업을 반복적으로 수행합니다.
 
 rqt를 이용해서 실제로 서보모터를 ROS로 구동해봅시다. 아래와 같이 topic publisher를 설정한 뒤 실행시키면 서보모터가 3초 주기로 sweep 하는 것을 볼 수 있습니다.
-i는 rqt에서 Publish할 때마다 1씩 증가하는 함수로, 아래와 같이 rqt설정을 했을 시에는 초당 100씩 증가하는 변수로 생각하면 됩니다.
+% i는 rqt에서 Publish할 때마다 1씩 증가하는 함수로, 아래와 같이 rqt설정을 했을 시에는 초당 100씩 증가하는 변수로 생각하면 됩니다.
 
 \begin{figure}[h]
-\centering\includegraphics[scale=0.5]{28_rqt_servo}
+\centering\includegraphics[scale=0.4]{28_rqt_servo}
 \caption{rqt servo example}
 \end{figure}
 
@@ -1050,9 +1052,258 @@ i는 rqt에서 Publish할 때마다 1씩 증가하는 함수로, 아래와 같�
 \subsection{Matlab Simulink를 이용한 Topic 제어}
 
 Matlab은 많은 엔지니어가 사용하는 플랫폼으로, 여러 공학적 프리셋들을 매우 신뢰도 있게 제공해줍니다. 특히 신호처리에서는 Matlab보다 나은 플랫폼을 찾기 어려운 정도인데요,
-놀랍게도 Matlab도 ROS 연동이 가능합니다. 심지어 매우 잘 됩니다. 그래서 이번 단원에서는 Matlab을 어떻게 ROS와 연동시키는지에 대해 이야기하고자 합니다. Matlab 언어를 이용해 진행할 수도 있지만,
-이번 단원에서는 Simulink를 이용해서 진행하도록 하겠습니다. Matlab을 켜고 
+놀랍게도 Matlab도 ROS 연동이 가능합니다. 심지어 매우 잘 됩니다. 그래서 이번 단원에서는 Matlab을 어떻게 ROS와 연동시키는지에 대해 이야기하고자 합니다.
+Matlab ROS 연동은 아래 페이지에 공식 튜토리얼이 나와있습니다. 순서대로 따라 해 보실 수 있습니다.
+Matlab 코드를 그냥 사용하는 것은 매우 느리기 때문에, Matlab Coder를 꼭 이용해서 컴파일 후 사용하는 것을 권장합니다.
+아래 튜토리얼 중 Generate a standalone ROS node from Simulink 를 참고하시면 됩니다.
+Matlab Coder가 Node가 들어있는 패키지 형태로 Matlab Simulink model을 만들어줍니다.
 
+\begin{link}[http://kr.mathworks.com/help/robotics/examples.html]
+  : Matlab ROS Tutorial
+\end{link}
+
+공식 튜토리얼이 있고, Matlab 라이선스 문제로 인해 교재에 내용을 더 넣지는 않겠습니다.
+
+
+\subsection{ROSJS를 이용한 Web 연동 Topic 제어}
+
+ROS는 그 태생이 초고속 서버라고 앞서 이야기했습니다. 그렇다면 서버 본연의 역할 또한 충실히 수행할 수 있는 능력을 가지고 있다고 할 수 있는데요, ROS 자체를 매우 잘 정의된 서버로서 사용할 수 있는 방법 또한 존재합니다.
+이번에는 rosbridge라는 패키지를 설치하고, 이 패키지를 통해서 웹으로 ROS Topic을 제어하는 방법에 대해서 이야기하도록 하겠습니다.
+
+먼저, rosbridge라는 웹소켓 기반 ros 서버를 설치해 봅시다. 다른 패키지를 설치해 본 경험이 있다면 어렵지 않게 설치할 수 있습니다.
+아래의 bash 명령어를 따라서 해봅시다.
+
+\begin{minted}{bash}
+  cd ~/catkin_workspace/src (catkin source 폴더로 이동)
+  git clone https://github.com/RobotWebTools/rosbridge_suite (rosbridge source 받아오기)
+  git clone https://github.com/GT-RAIL/rosauth (rosbridge dependency rosauth 받아오기)
+  sudo apt-get install python-bson (rosbridge dependency )
+  cd .. (catkin 폴더로 이동)
+  catkin_make (catkin project build)
+  catkin_make install (catkin project install)
+\end{minted}
+
+정상적으로 인스톨 되었다면 아래 커멘드로 websocket 서버를 실행해 봅시다.
+
+\begin{minted}{bash}
+  rosrun rosbridge_server rosbridge_websocket
+\end{minted}
+
+9090 포트로 웹소켓 서버가 열렸습니다. 이 웹소켓 서버는 topic에 따라 publish와 subscribe를 수행할 수 있는 서버입니다.
+간단하게 서버를 만들어봅시다. 해당 서버는 backend는 nodejs express, frontend는 angularjs로 짜여진 웹앱을 구동하는 서버입니다.
+
+\begin{link}[https://github.com/DongHoonPark/ros\_webTest]
+  ros web server
+\end{link}
+
+ros에 연결할 수 있는 웹앱을 구동하는 사이트를 돌려봅시다. 해당 작업은 nodejs가 필요합니다.
+nodejs 설치는 아래의 링크를 참고하세요.
+
+\begin{link}[https://nodejs.org/en/download/package-manager/]
+  nodejs install via package manager
+\end{link}
+
+nodejs 설치가 완료되었다면 아까 다운로드 받은 폴더에 들어가서 서버 셋업을 아래 스크립트를 실행하여 진행합니다.
+node package manager를 이용하여 서버를 구동하기 위한 라이브러리를 설치하고, bower package manager를 이용하여
+client 구동에 필요한 라이브러리를 설치합니다. 그리고 start 명령어를 통해 서버를 실행합니다.
+
+\begin{minted}{bash}
+  sudo npm install -g bower
+  npm install && bower install
+  npm start
+\end{minted}
+
+이제 3000번 포트에서 서버가 실행됩니다. 웹브라우저를 이용해 localhost:3000 에 접속해봅시다.
+아래와 같은 화면이 나옵니다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.4]{36_webbrowser}
+\caption{ROS Websocket Example}
+\end{figure}
+
+해당 페이지는 chatter topic으로 위 페이지에 적힌 메세지를 publish하는 웹앱입니다.
+echo 명령어를 이용해 chatter 토픽을 보고 있는 상태로 버튼을 눌러보면 실시간으로 데이터가 publish되는 것을 볼 수 있습니다.
+
+그러면 해당 웹앱이 어떻게 구성되어있는지 봅시다. 사실 저 웹앱은 서버가 해주는 일은 웹페이지 로딩밖에 없습니다.
+이 작업은 server/index.js 에서 이루어집니다.
+
+\begin{minted}{javascript}
+  var express = require('express');
+  var router = express.Router();
+  var path = require('path');
+
+  router.get('/', function(req, res, next) {
+    res.sendFile(path.join(__dirname + '/../views/index.html'));
+  });
+
+  module.exports = router;
+\end{minted}
+
+그럼 이 javascript 서버 파일이 로딩해주는 index.html 파일을 살펴보면, 여기에서 대부분의 클라이언트 파일의 로딩이 이루어집니다.
+
+\begin{minted}[breaklines=true]{html}
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>ros test</title>
+      <meta name="viewport" content="initial-scale=1"/>
+      <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+      <link rel='stylesheet' href="bower_components/angular-material/angular-material.min.css" />
+      <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'/>
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+    </head>
+    <body >
+      <div ng-app="rosTestApp" ui-view >
+      </div>
+    </body>
+    <script src="bower_components/jquery/dist/jquery.min.js" ></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+    <script src="bower_components/angular/angular.min.js" ></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js" ></script>
+    <script src="bower_components/angular-aria/angular-aria.min.js" ></script>
+    <script src="bower_components/angular-messages/angular-messages.min.js" ></script>
+    <script src="bower_components/angular-material/angular-material.min.js" ></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js" ></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js" ></script>
+    <script src="bower_components/nipplejs/dist/nipplejs.min.js" ></script>
+    <script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js" ></script>
+    <script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js" ></script>
+    <script type="text/javascript" src="js/ros.js" ></script>
+    <script src="app.js" ></script>
+    <script src="config.js" ></script>
+    <script src="js/controllers/rosTestPage.js" ></script>
+    <script src="js/controllers/ros.js" ></script>
+    <script src="js/controllers/home.js" ></script>
+  </html>
+
+\end{minted}
+
+그리고 앱 페이지 라우팅 설정이 들어가 있는 client/config.js 파일을 열면 처음 라우팅 되는 페이지는 ros라는 이름을 가지고 있고, url은 /인 것을 알 수 있습니다.
+그리고 첫 페이지는 rosController라는 함수에 의해 관리되며, 페이지 템플릿은 views/ros.html에 있는 것을 알 수 있죠.
+
+\begin{minted}{javascript}
+  rosTestApp.config(function($stateProvider, $urlRouterProvider) {
+    //
+    // For any unmatched url, redirect to /state1
+    $urlRouterProvider.otherwise("/");
+    //
+    // Now set up the states
+    $stateProvider
+      .state('home', {
+        url: "/home",
+        templateUrl: "views/home.html",
+        controller : "homeController"
+      })
+      .state('rosTestPage',{
+        url: "/rostest",
+        templateUrl: "views/rosTestPage.html",
+        controller : "rosTestPageController"
+      })
+      .state('ros', {
+        url: "/",
+        templateUrl : "views/ros.html",
+        controller : "rosController"
+      });
+  });
+\end{minted}
+
+그러면 이제 ros.html 파일을 열어봅시다. 버튼에 링크되어있는 함수가 sendTopic인 것을 알 수 있습니다. 해당 함수의 패러미터로는 input의 model(charData)이 들어갑니다.
+
+\begin{minted}{html}
+  <div class="md-inline-form" layout-padding>
+    <h1 >ROS</h1>
+    <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
+      <md-input-container class="md-block" >
+          <label>Chat to send</label>
+          <input ng-model="chatData" >
+          <md-button class="md-primary" ng-click="sendTopic(chatData)" >SEND</md-button>
+      </md-input-container>
+    </md-content>
+  </div>
+\end{minted}
+
+그리고 js/controllers/ros.js 파일을 열면 해당 함수가 실제로 정의되어 있는 것을 알 수 있습니다.
+
+\begin{minted}{javascript}
+  rosTestApp.controller("rosController",['$scope',function($scope){
+  $scope.sendTopic = function(chatData){
+    var chatter = new ROSLIB.Topic(
+      {
+        ros : ros,
+        name : '/chatter',
+        messageType : 'std_msgs/String'
+      }
+    );
+    var chat = new ROSLIB.Message(
+      {
+        data : chatData
+      }
+    )
+    chatter.publish(chat);
+  }
+}]);$
+\end{minted}
+
+위의 함수는 버튼이 눌릴 때 마다 chatter라는 함수를 불러서 /chatter라는 ros topic을 정의하고, data를 input에 있는 데이터로 집어넣은 뒤
+publish합니다. 어디로 publish하는지는 처음 웹앱이 실행될 때 로딩되는 스크립트인
+js/ros.js 에 있습니다. url/\#/rosTest 에 접속하시면 웹으로 만든 컨트롤러 예제가 나옵니다. 해당 예제를 참고해서 웹앱을 구성해서 컨트롤러를 만들어보시는 것도 좋습니다.
+
+\chapter{ROS Service}
+
+\section{ROS Service 개요}
+앞서 이야기했듯이, ROS는 비동기 통신인 Topic 제어 이외에도, 동기 통신 방법을 제공합니다. 그 방법을 ROS에서는 Service라는 이름으로 부르는데, 이러한 Service는 어떻게 구축하는 것인지 알아보도록 합시다.
+역시 Service에 대한 보다 자세한 접근은 표윤석 연구원님이 쓰신 책을 참고하시면 좋습니다.
+
+ROS Service는 동기적인 통신방식이기 때문에, request를 보내는 client와 response를 보내는 server로 나뉩니다. ROS의 지금까지 특징으로 미루어보면 쉽게 짐작하실 수 있겠지만,
+둘은 사용 언어나 플랫폼이 전혀 달라도 됩니다. bash에서 python 프로그램의 service를 call할 수도 있고, 반대의 경우도 가능합니다.
+
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.7]{37_service}
+\caption{ros service 구성}
+\end{figure}
+
+Service를 제공하는 서버 노드에 Argument와 함께 요청이 들어오면, 연산 후 Return 값을 서버는 클라이언트 노드에 보냅니다.
+이것이 기본적인 서비스의 작동 방식입니다.
+
+\section{ROS Service 실습}
+
+서비스의 개념을 잡기 위해 간단한 실습을 해봅시다. 먼저 gazebo를 켭니다.
+
+\begin{minted}{bash}
+  rosrun gazebo_ros gazebo
+\end{minted}
+
+그리고 아래 커멘드를 통해 현재 service가 어떤 것들이 있는지 파악합니다.
+
+\begin{minted}{bash}
+  rosservice list
+\end{minted}
+
+그러면 gazebo에 연결된 여러 서비스들이 나올 것입니다. gazebo에 아래와 같이 box를 하나 놓은 후
+이 box에 service를 이용해 torque를 가해 봅시다.
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.23]{38_gazebo_box}
+\caption{gazebo}
+\end{figure}
+
+\begin{minted}{bash}
+  rosservice call /gazebo/apply_body_wrench "body_name: 'unit_box_0::link'
+    reference_frame: ''
+    reference_point: {x: 0.0, y: 0.0, z: 0.0}
+    wrench:
+      force: {x: 0.0, y: 0.0, z: 0.0}
+      torque: {x: 0.0, y: 0.0, z: 7.0}
+    start_time: {secs: 0, nsecs: 0}
+    duration: {secs: 5, nsecs: 0}"
+\end{minted}
+
+bash를 통해 위와 같이 서비스를 호출하면 서비스 호출이 되었을 경우 Success : True 로 나옵니다.
+그리고 box 모델이 회전을 시작하죠.
+해당 서비스는 호출했을 시에 gazebo 안의 모델의 물리적 간섭을 서비스 호출 시 넘겨준 패러미터대로 하고,
+서비스 리턴 값으로는 성공/ 실패 여부를 내보냅니다. 따라서 서비스는 어떤 데이터가 확실히 넘어갔는지 알 수 있는 점에서 topic 기반 통신과 차이점을 가지죠.
 
 % This is an example of theorems.
 %

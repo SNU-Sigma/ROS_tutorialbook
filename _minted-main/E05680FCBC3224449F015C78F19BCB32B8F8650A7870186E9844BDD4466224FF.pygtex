@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{k+kd}{var} \PYG{n+nx}{express} \PYG{o}{=} \PYG{n+nx}{require}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}express\PYGZsq{}}\PYG{p}{);}
+  \PYG{k+kd}{var} \PYG{n+nx}{router} \PYG{o}{=} \PYG{n+nx}{express}\PYG{p}{.}\PYG{n+nx}{Router}\PYG{p}{();}
+  \PYG{k+kd}{var} \PYG{n+nx}{path} \PYG{o}{=} \PYG{n+nx}{require}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}path\PYGZsq{}}\PYG{p}{);}
+
+  \PYG{n+nx}{router}\PYG{p}{.}\PYG{n+nx}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/\PYGZsq{}}\PYG{p}{,} \PYG{k+kd}{function}\PYG{p}{(}\PYG{n+nx}{req}\PYG{p}{,} \PYG{n+nx}{res}\PYG{p}{,} \PYG{n+nx}{next}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n+nx}{res}\PYG{p}{.}\PYG{n+nx}{sendFile}\PYG{p}{(}\PYG{n+nx}{path}\PYG{p}{.}\PYG{n+nx}{join}\PYG{p}{(}\PYG{n+nx}{\PYGZus{}\PYGZus{}dirname} \PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{}/../views/index.html\PYGZsq{}}\PYG{p}{));}
+  \PYG{p}{\PYGZcb{});}
+
+  \PYG{n+nx}{module}\PYG{p}{.}\PYG{n+nx}{exports} \PYG{o}{=} \PYG{n+nx}{router}\PYG{p}{;}
+\end{Verbatim}

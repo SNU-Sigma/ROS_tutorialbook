@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  rosservice call /gazebo/apply\PYGZus{}body\PYGZus{}wrench \PYG{l+s+s2}{\PYGZdq{}body\PYGZus{}name: \PYGZsq{}unit\PYGZus{}box\PYGZus{}0::link\PYGZsq{}}
+\PYG{l+s+s2}{    reference\PYGZus{}frame: \PYGZsq{}\PYGZsq{}}
+\PYG{l+s+s2}{    reference\PYGZus{}point: \PYGZob{}x: 0.0, y: 0.0, z: 0.0\PYGZcb{}}
+\PYG{l+s+s2}{    wrench:}
+\PYG{l+s+s2}{      force: \PYGZob{}x: 0.0, y: 0.0, z: 0.0\PYGZcb{}}
+\PYG{l+s+s2}{      torque: \PYGZob{}x: 0.0, y: 0.0, z: 7.0\PYGZcb{}}
+\PYG{l+s+s2}{    start\PYGZus{}time: \PYGZob{}secs: 0, nsecs: 0\PYGZcb{}}
+\PYG{l+s+s2}{    duration: \PYGZob{}secs: 5, nsecs: 0\PYGZcb{}\PYGZdq{}}
+\end{Verbatim}

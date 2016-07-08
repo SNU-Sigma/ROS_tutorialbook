@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}md\PYGZhy{}inline\PYGZhy{}form\PYGZdq{}} \PYG{n+na}{layout\PYGZhy{}padding}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1} \PYG{p}{\PYGZgt{}}ROS\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{md\PYGZhy{}content} \PYG{n+na}{md\PYGZhy{}theme}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}docs\PYGZhy{}dark\PYGZdq{}} \PYG{n+na}{layout\PYGZhy{}gt\PYGZhy{}sm}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}row\PYGZdq{}} \PYG{n+na}{layout\PYGZhy{}padding}\PYG{p}{\PYGZgt{}}
+      \PYG{p}{\PYGZlt{}}\PYG{n+nt}{md\PYGZhy{}input\PYGZhy{}container} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}md\PYGZhy{}block\PYGZdq{}} \PYG{p}{\PYGZgt{}}
+          \PYG{p}{\PYGZlt{}}\PYG{n+nt}{label}\PYG{p}{\PYGZgt{}}Chat to send\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{label}\PYG{p}{\PYGZgt{}}
+          \PYG{p}{\PYGZlt{}}\PYG{n+nt}{input} \PYG{n+na}{ng\PYGZhy{}model}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}chatData\PYGZdq{}} \PYG{p}{\PYGZgt{}}
+          \PYG{p}{\PYGZlt{}}\PYG{n+nt}{md\PYGZhy{}button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}md\PYGZhy{}primary\PYGZdq{}} \PYG{n+na}{ng\PYGZhy{}click}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}sendTopic(chatData)\PYGZdq{}} \PYG{p}{\PYGZgt{}}SEND\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{md\PYGZhy{}button}\PYG{p}{\PYGZgt{}}
+      \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{md\PYGZhy{}input\PYGZhy{}container}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{md\PYGZhy{}content}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+\end{Verbatim}

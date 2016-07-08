@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  sudo npm install \PYGZhy{}g bower
+  npm install \PYG{o}{\PYGZam{}\PYGZam{}} bower install
+  npm start
+\end{Verbatim}

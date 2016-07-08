@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{n+nb}{source} \PYGZti{}/catkin\PYGZus{}workspace/install/setup.bash
+  \PYG{n+nb}{source} \PYGZti{}/catkin\PYGZus{}workspace/devel/setup.bash
+\end{Verbatim}
